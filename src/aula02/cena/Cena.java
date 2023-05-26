@@ -16,9 +16,10 @@ public class Cena implements GLEventListener {
     // Variáveis da bola
     private float ballPositionX = 0;
     private float ballPositionY = 0;
-    private float ballVelocityX = 0.015f;
-    private float ballVelocityY = 0.015f;
+    private float ballVelocityX = 0.03f;
+    private float ballVelocityY = 0.03f;
     private float ballSize = 0.05f;
+    public boolean isBallMoving = false;
 
     @Override
     public void init(GLAutoDrawable drawable) {
@@ -119,6 +120,8 @@ public class Cena implements GLEventListener {
     }
     
     public void update() {
+    // Verificar se a bola está em movimento
+    if (isBallMoving) {
         // Atualizar a posição da bola
         ballPositionX += ballVelocityX;
         ballPositionY += ballVelocityY;
@@ -133,12 +136,27 @@ public class Cena implements GLEventListener {
             ballVelocityY *= -1;
         }
         
+        // Verificar colisão com o retângulo amarelo
         if (ballPositionX - ballSize <= eixoX + 0.2f && ballPositionX + ballSize >= eixoX - 0.2f && ballPositionY - ballSize <= -1.6f) {
-        // Inverter a direção da bola no eixo Y
-        ballVelocityY *= -1;
+            // Inverter a direção da bola no eixo Y
+            ballVelocityY *= -1;
+            
+            // Ajustar a posição da bola para que não extrapole o SRU
+            if (ballPositionY - ballSize < yMin) {
+                ballPositionY = yMin + ballSize;
+            }
+        }
+        else {
+            // Caso a bola não toque no retângulo amarelo, retornar ao centro da tela
+            if (ballPositionY - ballSize < yMin) {
+                ballPositionX = 0;
+                ballPositionY = 0;
+                isBallMoving = false; // Parar o movimento da bola
+            }
+        }
     }
+}
 
-    }
     
     public float getEixoX() {
         return eixoX;
