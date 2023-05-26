@@ -19,6 +19,7 @@ public class Cena implements GLEventListener {
     private float ballVelocityX = 0.03f;
     private float ballVelocityY = 0.03f;
     private float ballSize = 0.05f;
+    public boolean isBallMoving = false;
 
     @Override
     public void init(GLAutoDrawable drawable) {
@@ -119,39 +120,42 @@ public class Cena implements GLEventListener {
     }
     
     public void update() {
-    // Atualizar a posição da bola
-    ballPositionX += ballVelocityX;
-    ballPositionY += ballVelocityY;
-    
-    // Verificar colisões com as bordas da tela
-    if (ballPositionX + ballSize > xMax || ballPositionX - ballSize < xMin) {
-        // Inverter a direção da bola no eixo X
-        ballVelocityX *= -1;
-    }
-    if (ballPositionY + ballSize > yMax || ballPositionY - ballSize < yMin) {
-        // Inverter a direção da bola no eixo Y
-        ballVelocityY *= -1;
-    }
-    
-    // Verificar colisão com o retângulo amarelo
-    if (ballPositionX - ballSize <= eixoX + 0.2f && ballPositionX + ballSize >= eixoX - 0.2f && ballPositionY - ballSize <= -1.6f) {
-        // Inverter a direção da bola no eixo Y
-        ballVelocityY *= -1;
+    // Verificar se a bola está em movimento
+    if (isBallMoving) {
+        // Atualizar a posição da bola
+        ballPositionX += ballVelocityX;
+        ballPositionY += ballVelocityY;
         
-        // Ajustar a posição da bola para que não extrapole o SRU
-        if (ballPositionY - ballSize < yMin) {
-            ballPositionY = yMin + ballSize;
+        // Verificar colisões com as bordas da tela
+        if (ballPositionX + ballSize > xMax || ballPositionX - ballSize < xMin) {
+            // Inverter a direção da bola no eixo X
+            ballVelocityX *= -1;
         }
-    }
-    else {
-        // Caso a bola não toque no retângulo amarelo, retornar ao centro da tela
-        if (ballPositionY - ballSize < yMin) {
-            ballPositionX = 0;
-            ballPositionY = 0;
+        if (ballPositionY + ballSize > yMax || ballPositionY - ballSize < yMin) {
+            // Inverter a direção da bola no eixo Y
+            ballVelocityY *= -1;
+        }
+        
+        // Verificar colisão com o retângulo amarelo
+        if (ballPositionX - ballSize <= eixoX + 0.2f && ballPositionX + ballSize >= eixoX - 0.2f && ballPositionY - ballSize <= -1.6f) {
+            // Inverter a direção da bola no eixo Y
+            ballVelocityY *= -1;
+            
+            // Ajustar a posição da bola para que não extrapole o SRU
+            if (ballPositionY - ballSize < yMin) {
+                ballPositionY = yMin + ballSize;
+            }
+        }
+        else {
+            // Caso a bola não toque no retângulo amarelo, retornar ao centro da tela
+            if (ballPositionY - ballSize < yMin) {
+                ballPositionX = 0;
+                ballPositionY = 0;
+                isBallMoving = false; // Parar o movimento da bola
+            }
         }
     }
 }
-
 
     
     public float getEixoX() {

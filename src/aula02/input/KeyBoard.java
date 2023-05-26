@@ -46,6 +46,11 @@ public class KeyBoard implements KeyListener {
                 System.out.println("Descendo no eixo Y");
                 cena.setEixoY(cena.getEixoY() - 0.05f);
                 break;
+                
+                case KeyEvent.VK_SPACE:
+            System.out.println("Espaço pressionado");
+            cena.isBallMoving = true; // Iniciar o movimento da bola
+            break;
         }
     }
 
