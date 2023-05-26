@@ -16,8 +16,8 @@ public class Cena implements GLEventListener {
     // Variáveis da bola
     private float ballPositionX = 0;
     private float ballPositionY = 0;
-    private float ballVelocityX = 0.05f;
-    private float ballVelocityY = 0.05f;
+    private float ballVelocityX = 0.015f;
+    private float ballVelocityY = 0.015f;
     private float ballSize = 0.05f;
 
     @Override
@@ -133,10 +133,11 @@ public class Cena implements GLEventListener {
             ballVelocityY *= -1;
         }
         
-        if (ballPositionX - ballSize <= eixoX + -1.5f && ballPositionX + ballSize >= eixoX -1.5f && ballPositionY - ballSize <= -1.5f) {
+        if (ballPositionX - ballSize <= eixoX + 0.2f && ballPositionX + ballSize >= eixoX - 0.2f && ballPositionY - ballSize <= -1.6f) {
         // Inverter a direção da bola no eixo Y
         ballVelocityY *= -1;
-}
+    }
+
     }
     
     public float getEixoX() {
