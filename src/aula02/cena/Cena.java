@@ -16,8 +16,8 @@ public class Cena implements GLEventListener {
     // Variáveis da bola
     private float ballPositionX = 0;
     private float ballPositionY = 0;
-    private float ballVelocityX = 0.03f;
-    private float ballVelocityY = 0.03f;
+    private float ballVelocityX = 0.02f;
+    private float ballVelocityY = 0.02f;
     private final float ballSize = 0.05f;
     public boolean isBallMoving = false;
 
@@ -37,18 +37,19 @@ public class Cena implements GLEventListener {
         GL2 gl = drawable.getGL().getGL2();
         configuraDisplay(gl);
         
-        // Atualizar a posição da bola e verificar colisões
+        // Atualiza a posição da bola e verifica as colisões
         update();
         
-        // Desenhar a bola
         gl.glPushMatrix();
         gl.glColor3f(1,0, 0);
         gl.glTranslatef(ballPositionX, ballPositionY, 0);
+        
         // Desenha o círculo
         Circulo circulo = new Circulo(ballSize);
         circulo.draw(gl);
         gl.glPopMatrix();
         
+        // Desenha o retangulo
         gl.glPushMatrix();
             gl.glTranslatef(eixoX, -1.8f, 0);
             gl.glColor3f(1, 1, 0);
@@ -60,8 +61,7 @@ public class Cena implements GLEventListener {
             gl.glEnd();
         gl.glPopMatrix();
 
-        
-        cordenadas(gl);
+        cordenadas(gl); // linha vertical e horizontal
     }
 
     @Override
@@ -120,43 +120,47 @@ public class Cena implements GLEventListener {
         gl.glEnd();
     }
     
-     public void update() {
-    // Verificar se a bola está em movimento
-    if (isBallMoving) {
-        // Atualizar a posição da bola
-        ballPositionX += ballVelocityX;
-        ballPositionY += ballVelocityY;
+    public void update() {
         
-        // Verificar colisões com as bordas da tela
-        if (ballPositionX + ballSize > xMax || ballPositionX - ballSize < xMin) {
-            // Inverter a direção da bola no eixo X
-            ballVelocityX *= -1;
-        }
-        if (ballPositionY + ballSize > yMax || ballPositionY - ballSize < yMin) {
-            // Inverter a direção da bola no eixo Y
-            ballVelocityY *= -1;
-        }
-        
-        // Verificar colisão com o retângulo amarelo
-        if (ballPositionX - ballSize <= eixoX + 0.2f && ballPositionX + ballSize >= eixoX - 0.2f && ballPositionY - ballSize <= -1.8f) {
-            // Inverter a direção da bola no eixo Y
-            ballVelocityY *= -1;
-            
-            // Ajustar a posição da bola para que não extrapole o SRU
-            if (ballPositionY - ballSize < yMin) {
-                ballPositionY = yMin + ballSize;
+        // Verifica se a bola está em movimento
+        if (isBallMoving) {
+
+            // Atualizar a posição da bola
+            ballPositionX += ballVelocityX;
+            ballPositionY += ballVelocityY;
+
+            // Verifica colisões com as bordas da tela
+            if (ballPositionX + ballSize > xMax || ballPositionX - ballSize < xMin) {
+                // Inverte a direção da bola no eixo X
+                ballVelocityX *= -1;
             }
-        }
-        else {
-            // Caso a bola não toque no retângulo amarelo, retornar ao centro da tela
-            if (ballPositionY - ballSize < yMin) {
-                ballPositionX = 0;
-                ballPositionY = 0;
-                isBallMoving = false; // Parar o movimento da bola
+
+            if (ballPositionY + ballSize > yMax || ballPositionY - ballSize < yMin) {
+                // Inverte a direção da bola no eixo Y
+                ballVelocityY *= -1;
+            }
+
+            // Verifica colisão com o retângulo amarelo
+            if (ballPositionX - ballSize <= eixoX + 0.2f && ballPositionX + ballSize >= eixoX - 0.2f && ballPositionY - ballSize <= -1.8f) {
+                // Inverte a direção da bola no eixo Y após a colisão
+                ballVelocityY *= -1;
+
+                // Ajusta a posição da bola para que não extrapole o SRU
+                if (ballPositionY - ballSize < yMin) {
+                    ballPositionY = yMin + ballSize;
+                }
+            }
+            else {
+
+                // Caso a bola não toque no retângulo amarelo, retorna ao centro da tela
+                if (ballPositionY - ballSize < yMin) {
+                    ballPositionX = 0;
+                    ballPositionY = 0;
+                    isBallMoving = false; // Para o movimento da bola até que o espaço seja teclado
+                }
             }
         }
     }
-}
 
     
     public float getEixoX() {
