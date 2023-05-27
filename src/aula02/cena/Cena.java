@@ -15,13 +15,14 @@ public class Cena implements GLEventListener {
     private GLU glu;
     private float eixoX;
     private float eixoY;
+    private int lives = 5;
     private TextRenderer textRenderer;
     
     // Variáveis da bola
     private float ballPositionX = 0;
     private float ballPositionY = 0;
-    private float ballVelocityX = 0.03f;
-    private float ballVelocityY = 0.03f;
+    private float ballVelocityX = 0.02f;
+    private float ballVelocityY = 0.02f;
     private final float ballSize = 0.05f;
     public boolean isBallMoving = false;
     
@@ -40,8 +41,6 @@ public class Cena implements GLEventListener {
         // Texto 
         textRenderer = new TextRenderer(new Font("Arial", Font.BOLD, 32));
         
-        // Renderer
-        Renderer renderer = new Renderer();
     }
     
     @Override
@@ -50,8 +49,13 @@ public class Cena implements GLEventListener {
         GL2 gl = drawable.getGL().getGL2();
         configuraDisplay(gl);
         
-        // Atualizar a posição da bola e verificar colisões
-        update();
+        // Roda a atualização se o jogador ainda possui vidas
+        if (this.getLives() > 0) {
+            // Atualiza a posição da bola e verifica as colisões
+            update();
+        } else { // encerra o jogo caso as vidas tenham acabado
+            System.exit(0);
+        }
         
         desenhaTexto(gl,20,aula02.cena.Renderer.screenHeight-100, Color.GREEN, "Placar: " + getScore());
         
@@ -65,6 +69,7 @@ public class Cena implements GLEventListener {
         circulo.draw(gl);
         gl.glPopMatrix();
         
+        // Desenha o retangulo
         gl.glPushMatrix();
             gl.glTranslatef(eixoX, -1.8f, 0);
             gl.glColor3f(1, 1, 0);
@@ -75,9 +80,27 @@ public class Cena implements GLEventListener {
             gl.glVertex2f(-0.2f, 0);
             gl.glEnd();
         gl.glPopMatrix();
-
         
-        cordenadas(gl);
+        // Mostra a quantidade de vidas na tela
+        gl.glPushMatrix();
+            gl.glLoadIdentity();
+            gl.glMatrixMode(GL2.GL_PROJECTION);
+            gl.glPushMatrix();
+            gl.glLoadIdentity();
+            gl.glOrtho(xMin, xMax, yMin, yMax, zMin, zMax);
+            gl.glMatrixMode(GL2.GL_MODELVIEW);
+
+            gl.glColor3f(1, 1, 0); // Cor do texto
+            gl.glRasterPos2f(-1.8f, 1.8f); // Posição na tela
+
+            desenhaTexto(gl,20,aula02.cena.Renderer.screenHeight-50, Color.YELLOW, "Vidas restantes: " + getLives());
+
+            gl.glMatrixMode(GL2.GL_PROJECTION);
+            gl.glPopMatrix();
+            gl.glMatrixMode(GL2.GL_MODELVIEW);
+        gl.glPopMatrix();
+
+        cordenadas(gl); // linha vertical e horizontal
     }
 
     @Override
@@ -136,47 +159,58 @@ public class Cena implements GLEventListener {
         gl.glEnd();
     }
     
-     public void update() {
-    // Verificar se a bola está em movimento
-    if (isBallMoving) {
-        // Atualizar a posição da bola
-        ballPositionX += ballVelocityX;
-        ballPositionY += ballVelocityY;
-        
-        // Verificar colisões com as bordas da tela
-        if (ballPositionX + ballSize > xMax || ballPositionX - ballSize < xMin) {
-            // Inverter a direção da bola no eixo X
-            ballVelocityX *= -1;
-        }
-        if (ballPositionY + ballSize > yMax || ballPositionY - ballSize < yMin) {
-            // Inverter a direção da bola no eixo Y
-            ballVelocityY *= -1;
-        }
-        
-        // Verificar colisão com o retângulo amarelo
-        if (ballPositionX - ballSize <= eixoX + 0.2f && ballPositionX + ballSize >= eixoX - 0.2f && ballPositionY - ballSize <= -1.8f) {
-            // Inverter a direção da bola no eixo Y
-            ballVelocityY *= -1;
-            
-            //marcar pontuação
+    public void update() {
+        // Verifica se a bola está em movimento
+        if (isBallMoving) {
+
+            // Atualizar a posição da bola
+            ballPositionX += ballVelocityX;
+            ballPositionY += ballVelocityY;
+
+            // Verifica colisões com as bordas da tela
+            if (ballPositionX + ballSize > xMax || ballPositionX - ballSize < xMin) {
+                // Inverte a direção da bola no eixo X
+                ballVelocityX *= -1;
+            }
+
+            if (ballPositionY + ballSize > yMax || ballPositionY - ballSize < yMin) {
+                // Inverte a direção da bola no eixo Y
+                ballVelocityY *= -1;
+            }
+
+            // Verifica colisão com o retângulo amarelo
+            if (ballPositionX - ballSize <= eixoX + 0.2f && ballPositionX + ballSize >= eixoX - 0.2f && ballPositionY - ballSize <= -1.8f) {
+                // Inverte a direção da bola no eixo Y após a colisão
+                ballVelocityY *= -1;
+                
+                //marcar pontuação
             marcarPontuacao();
             System.out.println(getScore());
-            
-            // Ajustar a posição da bola para que não extrapole o SRU
-            if (ballPositionY - ballSize < yMin) {
-                ballPositionY = yMin + ballSize;
+
+                // Ajusta a posição da bola para que não extrapole o SRU
+                if (ballPositionY - ballSize < yMin) {
+                    ballPositionY = yMin + ballSize;
+                }
             }
-        }
-        else {
-            // Caso a bola não toque no retângulo amarelo, retornar ao centro da tela
-            if (ballPositionY - ballSize < yMin) {
-                ballPositionX = 0;
-                ballPositionY = 0;
-                isBallMoving = false; // Parar o movimento da bola
+            else {
+
+                // Caso a bola não toque no retângulo amarelo, retorna ao centro da tela
+                if (ballPositionY - ballSize < yMin) {
+                    ballPositionX = 0;
+                    ballPositionY = 0;
+                    isBallMoving = false; // Para o movimento da bola até que o espaço seja teclado
+                    this.livesLeft();
+                    System.out.println(this.getLives());
+                }
             }
         }
     }
-}
+    
+    private int livesLeft() {
+        this.setLives((this.getLives()-1));
+        
+        return this.getLives();
+    }
      
     public int marcarPontuacao(){
         return score += 20;
@@ -202,6 +236,15 @@ public class Cena implements GLEventListener {
     public void setEixoY(float eixoY) {
         this.eixoY = eixoY;
     }
+
+    public int getLives() {
+        return lives;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
     
     public void desenhaTexto(GL2 gl, int xPosicao, int yPosicao, Color cor, String frase){         
         gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
