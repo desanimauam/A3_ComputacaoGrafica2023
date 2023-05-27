@@ -26,7 +26,7 @@ public class Renderer {
         Dimension d = tk.getScreenSize();
 
         // Configura a janela para tela cheia
-//        window.setFullscreen(true);
+        // window.setFullscreen(true);
 
         screenWidth = d.width;
         screenHeight = d.height;
