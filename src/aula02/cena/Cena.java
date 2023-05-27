@@ -156,7 +156,7 @@ public class Cena implements GLEventListener {
             // Atualizar a posição da bola
             ballPositionX += ballVelocityX;
             ballPositionY += ballVelocityY;
-
+            
             // Verifica colisões com as bordas da tela
             if (ballPositionX + ballSize > xMax || ballPositionX - ballSize < xMin) {
                 // Inverte a direção da bola no eixo X
