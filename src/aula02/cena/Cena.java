@@ -4,6 +4,9 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.glu.GLU;
+import com.jogamp.opengl.util.awt.TextRenderer;
+import java.awt.Color;
+import java.awt.Font;
 
 public class Cena implements GLEventListener {
     
@@ -12,6 +15,7 @@ public class Cena implements GLEventListener {
     private GLU glu;
     private float eixoX;
     private float eixoY;
+    private TextRenderer textRenderer;
     
     // Variáveis da bola
     private float ballPositionX = 0;
@@ -20,6 +24,9 @@ public class Cena implements GLEventListener {
     private float ballVelocityY = 0.03f;
     private final float ballSize = 0.05f;
     public boolean isBallMoving = false;
+    
+    // Variáveis do placar
+    private int score = 0;
 
     @Override
     public void init(GLAutoDrawable drawable) {
@@ -29,6 +36,12 @@ public class Cena implements GLEventListener {
         // Estabelece as coordenadas do SRU (Sistema de Referencia do Universo)
         xMin = yMin = zMin = -1f;
         xMax = yMax = zMax = 1f;
+        
+        // Texto 
+        textRenderer = new TextRenderer(new Font("Arial", Font.BOLD, 32));
+        
+        // Renderer
+        Renderer renderer = new Renderer();
     }
     
     @Override
@@ -40,10 +53,13 @@ public class Cena implements GLEventListener {
         // Atualizar a posição da bola e verificar colisões
         update();
         
+        desenhaTexto(gl,20,aula02.cena.Renderer.screenHeight-100, Color.GREEN, "Placar: " + getScore());
+        
         // Desenhar a bola
         gl.glPushMatrix();
         gl.glColor3f(1,0, 0);
         gl.glTranslatef(ballPositionX, ballPositionY, 0);
+        
         // Desenha o círculo
         Circulo circulo = new Circulo(ballSize);
         circulo.draw(gl);
@@ -142,6 +158,10 @@ public class Cena implements GLEventListener {
             // Inverter a direção da bola no eixo Y
             ballVelocityY *= -1;
             
+            //marcar pontuação
+            marcarPontuacao();
+            System.out.println(getScore());
+            
             // Ajustar a posição da bola para que não extrapole o SRU
             if (ballPositionY - ballSize < yMin) {
                 ballPositionY = yMin + ballSize;
@@ -157,6 +177,14 @@ public class Cena implements GLEventListener {
         }
     }
 }
+     
+    public int marcarPontuacao(){
+        return score += 20;
+    }
+    
+    public int getScore(){
+        return score;
+    }
 
     
     public float getEixoX() {
@@ -173,5 +201,14 @@ public class Cena implements GLEventListener {
 
     public void setEixoY(float eixoY) {
         this.eixoY = eixoY;
+    }
+    
+    public void desenhaTexto(GL2 gl, int xPosicao, int yPosicao, Color cor, String frase){         
+        gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
+        //Retorna a largura e altura da janela
+        textRenderer.beginRendering(aula02.cena.Renderer.screenWidth, aula02.cena.Renderer.screenHeight);       
+        textRenderer.setColor(cor);
+        textRenderer.draw(frase, xPosicao, yPosicao);
+        textRenderer.endRendering();
     }
 }
