@@ -13,8 +13,13 @@ public class Cena implements GLEventListener {
     // Variáveis globais
     private float xMin, xMax, yMin, yMax, zMin, zMax;
     private GLU glu;
-    private int lives = 5;
-    private TextRenderer textRenderer;
+    private int lives = 5; // Quantidade padrão de vidas
+    private TextRenderer textRenderer; // Mostrar texto no SRU
+    
+    // Variáveis de cores
+    private float ballColorRed = 1.0f;
+    private float ballColorGreen = 0.0f;
+    private float ballColorBlue = 0.0f;
     
     // Variáveis barra
     private float eixoX;
@@ -29,7 +34,7 @@ public class Cena implements GLEventListener {
     private final float ballSize = 0.05f;
     public boolean isBallMoving = false;
     
-    // Variáveis do placar
+    // Variável do placar
     private int score = 0;
     private int level = 1;
 
@@ -69,9 +74,9 @@ public class Cena implements GLEventListener {
         
         // Desenhar a bola
         gl.glPushMatrix();
-        gl.glColor3f(1,0, 0);
+        gl.glColor3f(ballColorRed, ballColorGreen, ballColorBlue); // Começa vermelho por padrão
         gl.glTranslatef(ballPositionX, ballPositionY, 0);
-        
+
         // Desenha o círculo
         Circulo circulo = new Circulo(ballSize);
         circulo.draw(gl);
@@ -121,21 +126,21 @@ public class Cena implements GLEventListener {
         // Calcula a proporção da janela (aspect ratio) da nova janela
         float aspect = (float) width / height;
 
-        // Atualize as coordenadas do SRU (Sistema de Referência do Universo) para se adaptarem ao novo tamanho da janela
+        // Atualiza as coordenadas do SRU (Sistema de Referência do Universo) para se adaptarem ao novo tamanho da janela
         xMin = yMin = zMin = -aspect;
         xMax = yMax = zMax = aspect;
 
-        // Atualize o viewport para abranger a janela inteira
+        // Atualiza o viewport para abranger a janela inteira
         gl.glViewport(0, 0, width, height);
 
-        // Ative a matriz de projeção
+        // Ativa a matriz de projeção
         gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity(); // Carregue a matriz identidade
 
         // Projeção ortogonal
         gl.glOrtho(xMin, xMax, yMin, yMax, zMin, zMax);
 
-        // Ative a matriz de modelagem
+        // Ativa a matriz de modelagem
         gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glLoadIdentity();
 
@@ -173,16 +178,26 @@ public class Cena implements GLEventListener {
             // Atualizar a posição da bola
             ballPositionX += ballVelocityX;
             ballPositionY += ballVelocityY;
-
+            
             // Verifica colisões com as bordas da tela
             if (ballPositionX + ballSize > xMax || ballPositionX - ballSize < xMin) {
                 // Inverte a direção da bola no eixo X
                 ballVelocityX *= -1;
+                
+                // Altera a cor da bola para azul
+                ballColorRed = 0.0f;
+                ballColorGreen = 0.0f;
+                ballColorBlue = 1.0f;
             }
 
             if (ballPositionY + ballSize > yMax || ballPositionY - ballSize < yMin) {
                 // Inverte a direção da bola no eixo Y
                 ballVelocityY *= -1;
+                
+                // Altera a cor da bola para verde
+                ballColorRed = 0.0f;
+                ballColorGreen = 1.0f;
+                ballColorBlue = 0.0f;
             }
 
             // Verifica colisão com o retângulo amarelo
@@ -200,6 +215,14 @@ public class Cena implements GLEventListener {
                 // Inverte a direção da bola no eixo Y após a colisão
                 ballVelocityY *= -1;
                 
+                // Altera a cor da bola para rosa
+                ballColorRed = 1.0f;
+                ballColorGreen = 0.0f;
+                ballColorBlue = 1.0f;
+                
+                //marcar pontuação
+                marcarPontuacao();
+                System.out.println(getScore());
                 //mudar de nível = aumentar velocidade
                 if(getScore() == 200) {
                     mudarLevel();
@@ -217,13 +240,21 @@ public class Cena implements GLEventListener {
                     ballPositionX = 0;
                     ballPositionY = 0;
                     isBallMoving = false; // Para o movimento da bola até que o espaço seja teclado
+                    
+                    // Retorna a cor da bola para vermelho
+                    ballColorRed = 1.0f;
+                    ballColorGreen = 0.0f;
+                    ballColorBlue = 0.0f;
+                    
+                    // Retira vidas
                     this.livesLeft();
-                    System.out.println(this.getLives());
+                    System.out.println(this.getLives()); // Printa no console a quantidade de vidas restantes
                 }
             }
         }
     }
     
+    // Função para retirar as vidas do jogador
     private int livesLeft() {
         this.setLives((this.getLives()-1));
         
@@ -282,6 +313,7 @@ public class Cena implements GLEventListener {
         return level;
     }
 
+    // Mostrar texto na tela
     public void setFase(int level){
         this.level = level;
     }
