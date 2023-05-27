@@ -89,7 +89,6 @@ public class Cena implements GLEventListener {
             gl.glEnd();
         gl.glPopMatrix();
         
-        // Mostra a quantidade de vidas na tela
         gl.glPushMatrix();
             gl.glLoadIdentity();
             gl.glMatrixMode(GL2.GL_PROJECTION);
@@ -100,13 +99,13 @@ public class Cena implements GLEventListener {
 
             gl.glColor3f(1, 1, 0); // Cor do texto
             gl.glRasterPos2f(-1.8f, 1.8f); // Posição na tela
-
-            desenhaTexto(gl,20,aula02.cena.Renderer.screenHeight-50, Color.YELLOW, "Vidas restantes: " + getLives());
-
             gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glPopMatrix();
             gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPopMatrix();
+
+        // Mostra a quantidade de vidas na tela
+        desenhaTexto(gl,20,aula02.cena.Renderer.screenHeight-50, Color.YELLOW, "Vidas restantes: " + getLives());
 
         cordenadas(gl); // linha vertical e horizontal
     }
