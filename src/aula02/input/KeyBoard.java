@@ -26,19 +26,19 @@ public class KeyBoard implements KeyListener {
                 System.out.println("Direita no eixo X");
                 if (cena.getEixoX() < 1.6f) {
                     cena.setEixoX(cena.getEixoX() + 0.05f);
-                    cena.setSentidoBarra("direita");
                     System.out.println(cena.getEixoX());
                 } else
                     cena.setEixoX(cena.getEixoX() + 0.0f);
+                cena.setSentidoBarra("direita");
                 break;
             case setaEsquerda:
                 System.out.println("Esquerda no eixo X");
                 if (cena.getEixoX() > -1.6f) {
                     cena.setEixoX(cena.getEixoX() - 0.05f);
-                    cena.setSentidoBarra("esquerda");
                     System.out.println(cena.getEixoX());
                 } else
                     cena.setEixoX(cena.getEixoX() + 0.0f);
+                cena.setSentidoBarra("esquerda");
                 break;
             case setaCima:
                 System.out.println("Subindo no eixo Y");

@@ -191,6 +191,12 @@ public class Cena implements GLEventListener {
                 marcarPontuacao();
                 System.out.println(getScore());
                 
+                if (sentido.equals("direita") && ballVelocityX < 0) {
+                    ballVelocityX *= -1;
+                } else if (sentido.equals("esquerda") && ballVelocityX > 0) {
+                    ballVelocityX *= -1;
+                }
+                
                 // Inverte a direção da bola no eixo Y após a colisão
                 ballVelocityY *= -1;
                 
