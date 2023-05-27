@@ -72,6 +72,9 @@ public class Cena implements GLEventListener {
         // Mostra a fase na tela
         desenhaTexto(gl,20,aula02.cena.Renderer.screenHeight-150, Color.WHITE, "Fase: " + getFase());
         
+        // Mostra a quantidade de vidas na tela
+        desenhaTexto(gl,20,aula02.cena.Renderer.screenHeight-50, Color.YELLOW, "Vidas restantes: " + getLives());
+        
         // Desenhar a bola
         gl.glPushMatrix();
         gl.glColor3f(ballColorRed, ballColorGreen, ballColorBlue); // Começa vermelho por padrão
@@ -93,24 +96,6 @@ public class Cena implements GLEventListener {
             gl.glVertex2f(-0.2f, 0);
             gl.glEnd();
         gl.glPopMatrix();
-        
-        gl.glPushMatrix();
-            gl.glLoadIdentity();
-            gl.glMatrixMode(GL2.GL_PROJECTION);
-            gl.glPushMatrix();
-            gl.glLoadIdentity();
-            gl.glOrtho(xMin, xMax, yMin, yMax, zMin, zMax);
-            gl.glMatrixMode(GL2.GL_MODELVIEW);
-
-            gl.glColor3f(1, 1, 0); // Cor do texto
-            gl.glRasterPos2f(-1.8f, 1.8f); // Posição na tela
-            gl.glMatrixMode(GL2.GL_PROJECTION);
-        gl.glPopMatrix();
-            gl.glMatrixMode(GL2.GL_MODELVIEW);
-        gl.glPopMatrix();
-
-        // Mostra a quantidade de vidas na tela
-        desenhaTexto(gl,20,aula02.cena.Renderer.screenHeight-50, Color.YELLOW, "Vidas restantes: " + getLives());
 
         cordenadas(gl); // linha vertical e horizontal
     }
@@ -202,18 +187,17 @@ public class Cena implements GLEventListener {
 
             // Verifica colisão com o retângulo amarelo
             if (ballPositionX - ballSize <= eixoX + 0.2f && ballPositionX + ballSize >= eixoX - 0.2f && ballPositionY - ballSize <= -1.8f) {
-                //marcar pontuação
-                marcarPontuacao();
-                System.out.println(getScore());
                 
+                // Verifica se o sentido do mocimento da barra e com a bola
                 if (sentido.equals("direita") && ballVelocityX < 0) {
-                    ballVelocityX *= -1;
+                //  Inverte a direção da bola no eixo X com uma pequena mudança de rota
+                    ballVelocityX = -1 * ballVelocityX + (float) Math.random() * 0.003f;
                 } else if (sentido.equals("esquerda") && ballVelocityX > 0) {
-                    ballVelocityX *= -1;
+                    ballVelocityX = -1 * ballVelocityX + (float) Math.random() * 0.001f;
                 }
                 
-                // Inverte a direção da bola no eixo Y após a colisão
-                ballVelocityY *= -1;
+                // Inverte a direção da bola no eixo Y após a colisão com uma pequena mudança de rota
+                ballVelocityY = -1 * ballVelocityY + (float) Math.random() * 0.003f;
                 
                 // Altera a cor da bola para rosa
                 ballColorRed = 1.0f;
