@@ -4,6 +4,7 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.glu.GLU;
+import com.jogamp.opengl.util.gl2.GLUT;
 
 public class Cena implements GLEventListener {
     
@@ -20,12 +21,14 @@ public class Cena implements GLEventListener {
     private float ballVelocityX = 0.02f;
     private float ballVelocityY = 0.02f;
     private final float ballSize = 0.05f;
+    private GLUT glut;
     public boolean isBallMoving = false;
 
     @Override
     public void init(GLAutoDrawable drawable) {
         // Dados iniciais da cena
         glu = new GLU();
+        glut = new GLUT();
 
         // Estabelece as coordenadas do SRU (Sistema de Referencia do Universo)
         xMin = yMin = zMin = -1f;
@@ -65,6 +68,28 @@ public class Cena implements GLEventListener {
             gl.glVertex2f(0.2f, 0);
             gl.glVertex2f(-0.2f, 0);
             gl.glEnd();
+        gl.glPopMatrix();
+        
+        // Mostra a quantidade de vidas na tela
+        gl.glPushMatrix();
+            gl.glLoadIdentity();
+            gl.glMatrixMode(GL2.GL_PROJECTION);
+            gl.glPushMatrix();
+            gl.glLoadIdentity();
+            gl.glOrtho(xMin, xMax, yMin, yMax, zMin, zMax);
+            gl.glMatrixMode(GL2.GL_MODELVIEW);
+
+            gl.glColor3f(1, 1, 0); // Cor do texto
+            gl.glRasterPos2f(-1.8f, 1.8f); // Posição do texto na tela
+
+            String vidasText = "Vidas: " + getLives(); // Texto a ser exibido
+            for (char c : vidasText.toCharArray()) {
+                glut.glutBitmapCharacter(GLUT.BITMAP_HELVETICA_18, c);
+            }
+
+            gl.glMatrixMode(GL2.GL_PROJECTION);
+            gl.glPopMatrix();
+            gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPopMatrix();
 
         cordenadas(gl); // linha vertical e horizontal
