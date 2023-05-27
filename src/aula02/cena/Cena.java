@@ -12,6 +12,7 @@ public class Cena implements GLEventListener {
     private GLU glu;
     private float eixoX;
     private float eixoY;
+    private int lives = 5;
     
     // Variáveis da bola
     private float ballPositionX = 0;
@@ -37,8 +38,13 @@ public class Cena implements GLEventListener {
         GL2 gl = drawable.getGL().getGL2();
         configuraDisplay(gl);
         
-        // Atualiza a posição da bola e verifica as colisões
-        update();
+        // Roda a atualização se o jogador ainda possui vidas
+        if (this.getLives() > 0) {
+            // Atualiza a posição da bola e verifica as colisões
+            update();
+        } else { // encerra o jogo caso as vidas tenham acabado
+            System.exit(0);
+        }
         
         gl.glPushMatrix();
         gl.glColor3f(1,0, 0);
@@ -157,9 +163,17 @@ public class Cena implements GLEventListener {
                     ballPositionX = 0;
                     ballPositionY = 0;
                     isBallMoving = false; // Para o movimento da bola até que o espaço seja teclado
+                    this.livesLeft();
+                    System.out.println(this.getLives());
                 }
             }
         }
+    }
+    
+    private int livesLeft() {
+        this.setLives((this.getLives()-1));
+        
+        return this.getLives();
     }
 
     
@@ -178,4 +192,13 @@ public class Cena implements GLEventListener {
     public void setEixoY(float eixoY) {
         this.eixoY = eixoY;
     }
+
+    public int getLives() {
+        return lives;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+    
 }
