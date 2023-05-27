@@ -18,7 +18,7 @@ public class Cena implements GLEventListener {
     private float ballPositionY = 0;
     private float ballVelocityX = 0.03f;
     private float ballVelocityY = 0.03f;
-    private float ballSize = 0.05f;
+    private final float ballSize = 0.05f;
     public boolean isBallMoving = false;
 
     @Override
@@ -50,15 +50,16 @@ public class Cena implements GLEventListener {
         gl.glPopMatrix();
         
         gl.glPushMatrix();
-        gl.glTranslatef(eixoX, 0, 0);
-        gl.glColor3f(1, 1, 0);
-        gl.glBegin(GL2.GL_QUADS);
-        gl.glVertex2f(-0.2f, -1.5f);
-        gl.glVertex2f(0.2f, -1.5f);
-        gl.glVertex2f(0.2f, -1.6f);
-        gl.glVertex2f(-0.2f, -1.6f);
-        gl.glEnd();
+            gl.glTranslatef(eixoX, -1.8f, 0);
+            gl.glColor3f(1, 1, 0);
+            gl.glBegin(GL2.GL_QUADS);
+            gl.glVertex2f(-0.2f, -0.1f);
+            gl.glVertex2f(0.2f, -0.1f);
+            gl.glVertex2f(0.2f, 0);
+            gl.glVertex2f(-0.2f, 0);
+            gl.glEnd();
         gl.glPopMatrix();
+
         
         cordenadas(gl);
     }
@@ -119,7 +120,7 @@ public class Cena implements GLEventListener {
         gl.glEnd();
     }
     
-    public void update() {
+     public void update() {
     // Verificar se a bola está em movimento
     if (isBallMoving) {
         // Atualizar a posição da bola
@@ -137,7 +138,7 @@ public class Cena implements GLEventListener {
         }
         
         // Verificar colisão com o retângulo amarelo
-        if (ballPositionX - ballSize <= eixoX + 0.2f && ballPositionX + ballSize >= eixoX - 0.2f && ballPositionY - ballSize <= -1.6f) {
+        if (ballPositionX - ballSize <= eixoX + 0.2f && ballPositionX + ballSize >= eixoX - 0.2f && ballPositionY - ballSize <= -1.8f) {
             // Inverter a direção da bola no eixo Y
             ballVelocityY *= -1;
             
