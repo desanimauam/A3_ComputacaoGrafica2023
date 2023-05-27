@@ -80,9 +80,9 @@ public class Cena implements GLEventListener {
             gl.glMatrixMode(GL2.GL_MODELVIEW);
 
             gl.glColor3f(1, 1, 0); // Cor do texto
-            gl.glRasterPos2f(-1.8f, 1.8f); // Posição do texto na tela
+            gl.glRasterPos2f(-1.8f, 1.8f); // Posição na tela
 
-            String vidasText = "Vidas: " + getLives(); // Texto a ser exibido
+            String vidasText = "Vidas restantes: " + getLives(); // Exibe a quantidade de vidas
             for (char c : vidasText.toCharArray()) {
                 glut.glutBitmapCharacter(GLUT.BITMAP_HELVETICA_18, c);
             }
