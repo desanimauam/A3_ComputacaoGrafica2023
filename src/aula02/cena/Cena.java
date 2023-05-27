@@ -4,7 +4,9 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.glu.GLU;
-import com.jogamp.opengl.util.gl2.GLUT;
+import com.jogamp.opengl.util.awt.TextRenderer;
+import java.awt.Color;
+import java.awt.Font;
 
 public class Cena implements GLEventListener {
     
@@ -14,6 +16,7 @@ public class Cena implements GLEventListener {
     private float eixoX;
     private float eixoY;
     private int lives = 5;
+    private TextRenderer textRenderer;
     
     // Variáveis da bola
     private float ballPositionX = 0;
@@ -21,18 +24,23 @@ public class Cena implements GLEventListener {
     private float ballVelocityX = 0.02f;
     private float ballVelocityY = 0.02f;
     private final float ballSize = 0.05f;
-    private GLUT glut;
     public boolean isBallMoving = false;
+    
+    // Variáveis do placar
+    private int score = 0;
 
     @Override
     public void init(GLAutoDrawable drawable) {
         // Dados iniciais da cena
         glu = new GLU();
-        glut = new GLUT();
 
         // Estabelece as coordenadas do SRU (Sistema de Referencia do Universo)
         xMin = yMin = zMin = -1f;
         xMax = yMax = zMax = 1f;
+        
+        // Texto 
+        textRenderer = new TextRenderer(new Font("Arial", Font.BOLD, 32));
+        
     }
     
     @Override
@@ -49,6 +57,9 @@ public class Cena implements GLEventListener {
             System.exit(0);
         }
         
+        desenhaTexto(gl,20,aula02.cena.Renderer.screenHeight-100, Color.GREEN, "Placar: " + getScore());
+        
+        // Desenhar a bola
         gl.glPushMatrix();
         gl.glColor3f(1,0, 0);
         gl.glTranslatef(ballPositionX, ballPositionY, 0);
@@ -82,10 +93,7 @@ public class Cena implements GLEventListener {
             gl.glColor3f(1, 1, 0); // Cor do texto
             gl.glRasterPos2f(-1.8f, 1.8f); // Posição na tela
 
-            String vidasText = "Vidas restantes: " + getLives(); // Exibe a quantidade de vidas
-            for (char c : vidasText.toCharArray()) {
-                glut.glutBitmapCharacter(GLUT.BITMAP_HELVETICA_18, c);
-            }
+            desenhaTexto(gl,20,aula02.cena.Renderer.screenHeight-50, Color.YELLOW, "Vidas restantes: " + getLives());
 
             gl.glMatrixMode(GL2.GL_PROJECTION);
             gl.glPopMatrix();
@@ -152,7 +160,6 @@ public class Cena implements GLEventListener {
     }
     
     public void update() {
-        
         // Verifica se a bola está em movimento
         if (isBallMoving) {
 
@@ -175,6 +182,10 @@ public class Cena implements GLEventListener {
             if (ballPositionX - ballSize <= eixoX + 0.2f && ballPositionX + ballSize >= eixoX - 0.2f && ballPositionY - ballSize <= -1.8f) {
                 // Inverte a direção da bola no eixo Y após a colisão
                 ballVelocityY *= -1;
+                
+                //marcar pontuação
+            marcarPontuacao();
+            System.out.println(getScore());
 
                 // Ajusta a posição da bola para que não extrapole o SRU
                 if (ballPositionY - ballSize < yMin) {
@@ -199,6 +210,14 @@ public class Cena implements GLEventListener {
         this.setLives((this.getLives()-1));
         
         return this.getLives();
+    }
+     
+    public int marcarPontuacao(){
+        return score += 20;
+    }
+    
+    public int getScore(){
+        return score;
     }
 
     
@@ -225,5 +244,14 @@ public class Cena implements GLEventListener {
     public void setLives(int lives) {
         this.lives = lives;
     }
+
     
+    public void desenhaTexto(GL2 gl, int xPosicao, int yPosicao, Color cor, String frase){         
+        gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
+        //Retorna a largura e altura da janela
+        textRenderer.beginRendering(aula02.cena.Renderer.screenWidth, aula02.cena.Renderer.screenHeight);       
+        textRenderer.setColor(cor);
+        textRenderer.draw(frase, xPosicao, yPosicao);
+        textRenderer.endRendering();
+    }
 }
