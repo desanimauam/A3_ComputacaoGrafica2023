@@ -13,8 +13,6 @@ public class Cena implements GLEventListener {
     // Variáveis globais
     private float xMin, xMax, yMin, yMax, zMin, zMax;
     private GLU glu;
-    private float eixoX;
-    private float eixoY;
     private int lives = 5; // Quantidade padrão de vidas
     private TextRenderer textRenderer; // Mostrar texto no SRU
     
@@ -22,7 +20,11 @@ public class Cena implements GLEventListener {
     private float ballColorRed = 1.0f;
     private float ballColorGreen = 0.0f;
     private float ballColorBlue = 0.0f;
-
+    
+    // Variáveis barra
+    private float eixoX;
+    private float eixoY;
+    private String sentido = "neutro";
     
     // Variáveis da bola
     private float ballPositionX = 0;
@@ -34,6 +36,7 @@ public class Cena implements GLEventListener {
     
     // Variável do placar
     private int score = 0;
+    private int level = 1;
 
     @Override
     public void init(GLAutoDrawable drawable) {
@@ -63,7 +66,11 @@ public class Cena implements GLEventListener {
             System.exit(0);
         }
         
+        // Mostra o placar na tela
         desenhaTexto(gl,20,aula02.cena.Renderer.screenHeight-100, Color.GREEN, "Placar: " + getScore());
+        
+        // Mostra a fase na tela
+        desenhaTexto(gl,20,aula02.cena.Renderer.screenHeight-150, Color.WHITE, "Fase: " + getFase());
         
         // Desenhar a bola
         gl.glPushMatrix();
@@ -87,6 +94,21 @@ public class Cena implements GLEventListener {
             gl.glEnd();
         gl.glPopMatrix();
         
+        gl.glPushMatrix();
+            gl.glLoadIdentity();
+            gl.glMatrixMode(GL2.GL_PROJECTION);
+            gl.glPushMatrix();
+            gl.glLoadIdentity();
+            gl.glOrtho(xMin, xMax, yMin, yMax, zMin, zMax);
+            gl.glMatrixMode(GL2.GL_MODELVIEW);
+
+            gl.glColor3f(1, 1, 0); // Cor do texto
+            gl.glRasterPos2f(-1.8f, 1.8f); // Posição na tela
+            gl.glMatrixMode(GL2.GL_PROJECTION);
+        gl.glPopMatrix();
+            gl.glMatrixMode(GL2.GL_MODELVIEW);
+        gl.glPopMatrix();
+
         // Mostra a quantidade de vidas na tela
         desenhaTexto(gl,20,aula02.cena.Renderer.screenHeight-50, Color.YELLOW, "Vidas restantes: " + getLives());
 
@@ -180,6 +202,16 @@ public class Cena implements GLEventListener {
 
             // Verifica colisão com o retângulo amarelo
             if (ballPositionX - ballSize <= eixoX + 0.2f && ballPositionX + ballSize >= eixoX - 0.2f && ballPositionY - ballSize <= -1.8f) {
+                //marcar pontuação
+                marcarPontuacao();
+                System.out.println(getScore());
+                
+                if (sentido.equals("direita") && ballVelocityX < 0) {
+                    ballVelocityX *= -1;
+                } else if (sentido.equals("esquerda") && ballVelocityX > 0) {
+                    ballVelocityX *= -1;
+                }
+                
                 // Inverte a direção da bola no eixo Y após a colisão
                 ballVelocityY *= -1;
                 
@@ -191,6 +223,10 @@ public class Cena implements GLEventListener {
                 //marcar pontuação
                 marcarPontuacao();
                 System.out.println(getScore());
+                //mudar de nível = aumentar velocidade
+                if(getScore() == 200) {
+                    mudarLevel();
+                }
 
                 // Ajusta a posição da bola para que não extrapole o SRU
                 if (ballPositionY - ballSize < yMin) {
@@ -226,11 +262,17 @@ public class Cena implements GLEventListener {
     }
      
     public int marcarPontuacao(){
-        return score += 20;
+        return this.score += 20;
     }
     
     public int getScore(){
         return score;
+    }
+    
+    public void mudarLevel(){
+        ballVelocityX *= 1.5f;
+        ballVelocityY *= 1.5f;
+        setFase(2);
     }
 
     
@@ -257,8 +299,25 @@ public class Cena implements GLEventListener {
     public void setLives(int lives) {
         this.lives = lives;
     }
+    
+    public void setSentidoBarra(String sentido){
+        this.sentido = sentido;
+        System.out.println(this.sentido);
+    }
+    
+    public String getSentidoBarra(){
+        return sentido;
+    }
+    
+    public int getFase(){
+        return level;
+    }
 
     // Mostrar texto na tela
+    public void setFase(int level){
+        this.level = level;
+    }
+    
     public void desenhaTexto(GL2 gl, int xPosicao, int yPosicao, Color cor, String frase){         
         gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
         //Retorna a largura e altura da janela

@@ -29,6 +29,7 @@ public class KeyBoard implements KeyListener {
                     System.out.println(cena.getEixoX());
                 } else
                     cena.setEixoX(cena.getEixoX() + 0.0f);
+                cena.setSentidoBarra("direita");
                 break;
             case setaEsquerda:
                 System.out.println("Esquerda no eixo X");
@@ -37,6 +38,7 @@ public class KeyBoard implements KeyListener {
                     System.out.println(cena.getEixoX());
                 } else
                     cena.setEixoX(cena.getEixoX() + 0.0f);
+                cena.setSentidoBarra("esquerda");
                 break;
             case setaCima:
                 System.out.println("Subindo no eixo Y");
@@ -47,10 +49,10 @@ public class KeyBoard implements KeyListener {
                 cena.setEixoY(cena.getEixoY() - 0.05f);
                 break;
                 
-                case KeyEvent.VK_SPACE:
-            System.out.println("Espaço pressionado");
-            cena.isBallMoving = true; // Iniciar o movimento da bola
-            break;
+            case KeyEvent.VK_SPACE:
+                System.out.println("Espaço pressionado");
+                cena.isBallMoving = true; // Iniciar o movimento da bola
+                break;
         }
     }
 
