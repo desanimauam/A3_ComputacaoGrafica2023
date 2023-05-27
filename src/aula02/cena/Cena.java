@@ -13,10 +13,13 @@ public class Cena implements GLEventListener {
     // Variáveis globais
     private float xMin, xMax, yMin, yMax, zMin, zMax;
     private GLU glu;
-    private float eixoX;
-    private float eixoY;
     private int lives = 5;
     private TextRenderer textRenderer;
+    
+    // Variáveis barra
+    private float eixoX;
+    private float eixoY;
+    private String sentido = "neutro";
     
     // Variáveis da bola
     private float ballPositionX = 0;
@@ -28,6 +31,7 @@ public class Cena implements GLEventListener {
     
     // Variáveis do placar
     private int score = 0;
+    private int level = 1;
 
     @Override
     public void init(GLAutoDrawable drawable) {
@@ -57,7 +61,11 @@ public class Cena implements GLEventListener {
             System.exit(0);
         }
         
+        // Mostra o placar na tela
         desenhaTexto(gl,20,aula02.cena.Renderer.screenHeight-100, Color.GREEN, "Placar: " + getScore());
+        
+        // Mostra a fase na tela
+        desenhaTexto(gl,20,aula02.cena.Renderer.screenHeight-150, Color.WHITE, "Fase: " + getFase());
         
         // Desenhar a bola
         gl.glPushMatrix();
@@ -96,7 +104,7 @@ public class Cena implements GLEventListener {
             desenhaTexto(gl,20,aula02.cena.Renderer.screenHeight-50, Color.YELLOW, "Vidas restantes: " + getLives());
 
             gl.glMatrixMode(GL2.GL_PROJECTION);
-            gl.glPopMatrix();
+        gl.glPopMatrix();
             gl.glMatrixMode(GL2.GL_MODELVIEW);
         gl.glPopMatrix();
 
@@ -180,12 +188,17 @@ public class Cena implements GLEventListener {
 
             // Verifica colisão com o retângulo amarelo
             if (ballPositionX - ballSize <= eixoX + 0.2f && ballPositionX + ballSize >= eixoX - 0.2f && ballPositionY - ballSize <= -1.8f) {
+                //marcar pontuação
+                marcarPontuacao();
+                System.out.println(getScore());
+                
                 // Inverte a direção da bola no eixo Y após a colisão
                 ballVelocityY *= -1;
                 
-                //marcar pontuação
-            marcarPontuacao();
-            System.out.println(getScore());
+                //mudar de nível = aumentar velocidade
+                if(getScore() == 200) {
+                    mudarLevel();
+                }
 
                 // Ajusta a posição da bola para que não extrapole o SRU
                 if (ballPositionY - ballSize < yMin) {
@@ -213,11 +226,17 @@ public class Cena implements GLEventListener {
     }
      
     public int marcarPontuacao(){
-        return score += 20;
+        return this.score += 20;
     }
     
     public int getScore(){
         return score;
+    }
+    
+    public void mudarLevel(){
+        ballVelocityX *= 1.5f;
+        ballVelocityY *= 1.5f;
+        setFase(2);
     }
 
     
@@ -244,7 +263,23 @@ public class Cena implements GLEventListener {
     public void setLives(int lives) {
         this.lives = lives;
     }
+    
+    public void setSentidoBarra(String sentido){
+        this.sentido = sentido;
+        System.out.println(this.sentido);
+    }
+    
+    public String getSentidoBarra(){
+        return sentido;
+    }
+    
+    public int getFase(){
+        return level;
+    }
 
+    public void setFase(int level){
+        this.level = level;
+    }
     
     public void desenhaTexto(GL2 gl, int xPosicao, int yPosicao, Color cor, String frase){         
         gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
