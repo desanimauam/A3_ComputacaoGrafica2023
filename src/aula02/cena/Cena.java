@@ -74,7 +74,7 @@ public class Cena implements GLEventListener {
             // Atualiza a posição da bola e verifica as colisões
             update();
         } else { // encerra o jogo caso as vidas tenham acabado
-            System.exit(0);
+            this.stopGame();
         }
         
         // Mostra o placar na tela
@@ -196,7 +196,7 @@ public class Cena implements GLEventListener {
                 // Inverte a direção da bola no eixo X
                 ballVelocityX *= -1;
                 
-                // Altera a cor da bola para azul-clarp
+                // Altera a cor da bola para azul-claro
                 ballColorRed = 0.65f;
                 ballColorGreen = 0.65f;
                 ballColorBlue = 1.0f;
@@ -206,7 +206,7 @@ public class Cena implements GLEventListener {
                 // Inverte a direção da bola no eixo Y
                 ballVelocityY *= -1;
                 
-                // Altera a cor da bola para verde
+                // Altera a cor da bola para verde-claro
                 ballColorRed = 0.65f;
                 ballColorGreen = 1.0f;
                 ballColorBlue = 0.65f;
@@ -255,9 +255,9 @@ public class Cena implements GLEventListener {
                 // Inverte a direção da bola no eixo X
                 ballVelocityX *= -1;
 
-                // Altera a cor da bola para azul
-                ballColorRed = 0.0f;
-                ballColorGreen = 0.0f;
+                // Altera a cor da bola para azul-claro
+                ballColorRed = 0.65f;
+                ballColorGreen = 0.65f;
                 ballColorBlue = 1.0f;
             }
             // verifica colisão com o lado direito do obstáculo
@@ -269,9 +269,9 @@ public class Cena implements GLEventListener {
                 // Inverte a direção da bola no eixo X
                 ballVelocityX *= -1;
 
-                // Altera a cor da bola para azul
-                ballColorRed = 0.0f;
-                ballColorGreen = 0.0f;
+                // Altera a cor da bola para azul-claro
+                ballColorRed = 0.65f;
+                ballColorGreen = 0.65f;
                 ballColorBlue = 1.0f;
             }
             // verifica colisão com a parte inferior do obstaculo
@@ -283,10 +283,10 @@ public class Cena implements GLEventListener {
                 // Inverte a direção da bola no eixo Y
                 ballVelocityY *= -1;
 
-                // Altera a cor da bola para verde
-                ballColorRed = 0.0f;
+                // Altera a cor da bola para verde-claro
+                ballColorRed = 0.65f;
                 ballColorGreen = 1.0f;
-                ballColorBlue = 0.0f;
+                ballColorBlue = 0.65f;
             }
             // verifica colisão com a parte superior do obstaculo
             if(getFase() == 2 &&
@@ -297,10 +297,10 @@ public class Cena implements GLEventListener {
                 // Inverte a direção da bola no eixo Y
                 ballVelocityY *= -1;
 
-                // Altera a cor da bola para verde
-                ballColorRed = 0.0f;
+                // Altera a cor da bola para verde-claro
+                ballColorRed = 0.65f;
                 ballColorGreen = 1.0f;
-                ballColorBlue = 0.0f;
+                ballColorBlue = 0.65f;
             }
             else {
 
