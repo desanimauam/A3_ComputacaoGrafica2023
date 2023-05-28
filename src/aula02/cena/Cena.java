@@ -290,18 +290,18 @@ public class Cena implements GLEventListener {
             }
             // verifica colisão com a parte superior do obstaculo
             if(getFase() == 2 &&
-                ballPositionY > obstaclePositionYMax && 
-                ballPositionY - ballSize >= obstaclePositionYMax &&
-                ballPositionX + ballSize <= obstaclePositionXMax && 
-                ballPositionX - ballSize >= obstaclePositionXMin){
-                // Inverte a direção da bola no eixo Y
-                ballVelocityY *= -1;
-
-                // Altera a cor da bola para verde-claro
-                ballColorRed = 0.65f;
-                ballColorGreen = 1.0f;
-                ballColorBlue = 0.65f;
+                ballPositionY > obstaclePositionYMax &&
+                ballPositionY - ballSize <= obstaclePositionYMax &&
+                ballPositionX + ballSize >= obstaclePositionXMin &&
+                ballPositionX - ballSize <= obstaclePositionXMax){
+                    // Inverte a direção da bola no eixo Y
+                    ballVelocityY *= -1;
+                    // Altera a cor da bola para verde-claro
+                    ballColorRed = 0.65f;
+                    ballColorGreen = 1.0f;
+                    ballColorBlue = 0.65f;
             }
+
             else {
 
                 // Caso a bola não toque no retângulo amarelo, retorna ao centro da tela
