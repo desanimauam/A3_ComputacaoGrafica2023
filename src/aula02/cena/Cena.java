@@ -7,6 +7,7 @@ import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.awt.TextRenderer;
 import java.awt.Color;
 import java.awt.Font;
+import aula02.textura.Textura;
 
 public class Cena implements GLEventListener {
     
@@ -44,6 +45,18 @@ public class Cena implements GLEventListener {
     private final float obstaclePositionYMin = 0.3f;
     private final float obstaclePositionYMax = 1f;
     
+    //Referencia para classe Textura
+    private Textura textura = null;
+    //Quantidade de Texturas a ser carregada
+    private int totalTextura = 1;
+    //Constantes para identificar as imagens
+    private float limite;
+    public static final String FACE1 = "image/mario.png";
+    private int filtro = GL2.GL_LINEAR;
+    private int wrap = GL2.GL_REPEAT;
+    private int modo = GL2.GL_DECAL;
+    private int indice;
+    
 
     @Override
     public void init(GLAutoDrawable drawable) {
@@ -57,6 +70,10 @@ public class Cena implements GLEventListener {
         
         // Texto  
         textRenderer = new TextRenderer(new Font("Arial", Font.BOLD, 32));
+        
+        limite = 1;
+        //Cria uma instancia da Classe Textura indicando a quantidade de texturas
+        textura = new Textura(totalTextura);
         
         gl.glEnable(GL2.GL_LIGHTING);
     }
@@ -111,17 +128,35 @@ public class Cena implements GLEventListener {
             gl.glEnd();
         gl.glPopMatrix();
         
+        
+        
         if(getFase() == 2){
+            
+            // Desenha um cubo no qual a textura eh aplicada
+            //não é geração de textura automática
+            textura.setAutomatica(false);
+
+            //configura os filtros
+            textura.setFiltro(filtro);
+            textura.setModo(modo);
+            textura.setWrap(wrap);  
+
+            //cria a textura indicando o local da imagem e o índice
+            textura.gerarTextura(gl, FACE1, 0);
+
             // Desenha o retangulo
             gl.glPushMatrix();
                 gl.glColor3f(1, 1, 1);
                 gl.glBegin(GL2.GL_QUADS);
-                gl.glVertex2f(obstaclePositionXMin, obstaclePositionYMin);
-                gl.glVertex2f(obstaclePositionXMax, obstaclePositionYMin);
-                gl.glVertex2f(obstaclePositionXMax, obstaclePositionYMax);
-                gl.glVertex2f(obstaclePositionXMin, obstaclePositionYMax);
+                gl.glTexCoord2f(0.0f, 0.0f);    gl.glVertex2f(obstaclePositionXMin, obstaclePositionYMin);
+                gl.glTexCoord2f(limite, 0.0f);  gl.glVertex2f(obstaclePositionXMax, obstaclePositionYMin);
+                gl.glTexCoord2f(limite, limite);    gl.glVertex2f(obstaclePositionXMax, obstaclePositionYMax);
+                gl.glTexCoord2f(0.0f, limite);  gl.glVertex2f(obstaclePositionXMin, obstaclePositionYMax);
                 gl.glEnd();
             gl.glPopMatrix();
+            
+             //desabilita a textura indicando o índice
+            textura.desabilitarTextura(gl, 0);
         }
 
         cordenadas(gl); // linha vertical e horizontal
