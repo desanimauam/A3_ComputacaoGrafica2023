@@ -39,8 +39,8 @@ public class Cena implements GLEventListener {
     private int level = 1;
     
     // Variáveis do obstáculo
-    private float obstaclePositionXMin = -0.5f;
-    private float obstaclePositionXMax = 0.5f;
+    private float obstaclePositionXMin = 0.4f;
+    private float obstaclePositionXMax = 1.4f;
     private float obstaclePositionYMin = 0.3f;
     private float obstaclePositionYMax = 1f;
     
@@ -336,6 +336,7 @@ public class Cena implements GLEventListener {
             this.setLives(5);
             this.setScore(0);
             this.setFase(1);
+            this.update();
     }
     
     public void iluminacaoAmbiente(GL2 gl, float ballPositionX, float ballPositionY) {
