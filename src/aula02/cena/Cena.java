@@ -39,10 +39,10 @@ public class Cena implements GLEventListener {
     private int level = 1;
     
     // Variáveis do obstáculo
-    private float obstaclePositionXMin = -0.5f;
-    private float obstaclePositionXMax = 0.5f;
-    private float obstaclePositionYMin = 0.3f;
-    private float obstaclePositionYMax = 1f;
+    private final float obstaclePositionXMin = 0.4f;
+    private final float obstaclePositionXMax = 1.4f;
+    private final float obstaclePositionYMin = 0.3f;
+    private final float obstaclePositionYMax = 1f;
     
 
     @Override
@@ -55,7 +55,7 @@ public class Cena implements GLEventListener {
         xMin = yMin = zMin = -1f;
         xMax = yMax = zMax = 1f;
         
-        // Texto 
+        // Texto  
         textRenderer = new TextRenderer(new Font("Arial", Font.BOLD, 32));
         
         gl.glEnable(GL2.GL_LIGHTING);
@@ -336,6 +336,7 @@ public class Cena implements GLEventListener {
             this.setLives(5);
             this.setScore(0);
             this.setFase(1);
+            this.update();
     }
     
     public void iluminacaoAmbiente(GL2 gl, float ballPositionX, float ballPositionY) {
