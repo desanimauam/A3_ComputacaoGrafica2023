@@ -18,8 +18,8 @@ public class Cena implements GLEventListener {
     
     // Variáveis de cores
     private float ballColorRed = 1.0f;
-    private float ballColorGreen = 0.0f;
-    private float ballColorBlue = 0.0f;
+    private float ballColorGreen = 1.0f;
+    private float ballColorBlue = 0.6f;
     
     // Variáveis barra
     private float eixoX;
@@ -40,6 +40,7 @@ public class Cena implements GLEventListener {
 
     @Override
     public void init(GLAutoDrawable drawable) {
+        GL2 gl = drawable.getGL().getGL2();
         // Dados iniciais da cena
         glu = new GLU();
 
@@ -50,6 +51,7 @@ public class Cena implements GLEventListener {
         // Texto 
         textRenderer = new TextRenderer(new Font("Arial", Font.BOLD, 32));
         
+        gl.glEnable(GL2.GL_LIGHTING);
     }
     
     @Override
@@ -57,6 +59,8 @@ public class Cena implements GLEventListener {
         // Obtem o contexto OpenGL
         GL2 gl = drawable.getGL().getGL2();
         configuraDisplay(gl);
+        
+        iluminacaoAmbiente(gl, ballPositionX, ballPositionY);
         
         // Roda a atualização se o jogador ainda possui vidas
         if (this.getLives() > 0) {
@@ -77,7 +81,7 @@ public class Cena implements GLEventListener {
         
         // Desenhar a bola
         gl.glPushMatrix();
-        gl.glColor3f(ballColorRed, ballColorGreen, ballColorBlue); // Começa vermelho por padrão
+        gl.glColor3f(ballColorRed, ballColorGreen, ballColorBlue); // Começa amarelo-claro por padrão
         gl.glTranslatef(ballPositionX, ballPositionY, 0);
 
         // Desenha o círculo
@@ -169,9 +173,9 @@ public class Cena implements GLEventListener {
                 // Inverte a direção da bola no eixo X
                 ballVelocityX *= -1;
                 
-                // Altera a cor da bola para azul
-                ballColorRed = 0.0f;
-                ballColorGreen = 0.0f;
+                // Altera a cor da bola para azul-clarp
+                ballColorRed = 0.65f;
+                ballColorGreen = 0.65f;
                 ballColorBlue = 1.0f;
             }
 
@@ -180,9 +184,9 @@ public class Cena implements GLEventListener {
                 ballVelocityY *= -1;
                 
                 // Altera a cor da bola para verde
-                ballColorRed = 0.0f;
+                ballColorRed = 0.65f;
                 ballColorGreen = 1.0f;
-                ballColorBlue = 0.0f;
+                ballColorBlue = 0.65f;
             }
 
             // Verifica colisão com o retângulo amarelo
@@ -201,7 +205,7 @@ public class Cena implements GLEventListener {
                 
                 // Altera a cor da bola para rosa
                 ballColorRed = 1.0f;
-                ballColorGreen = 0.0f;
+                ballColorGreen = 0.65f;
                 ballColorBlue = 1.0f;
                 
                 //marcar pontuação
@@ -225,10 +229,10 @@ public class Cena implements GLEventListener {
                     ballPositionY = 0;
                     isBallMoving = false; // Para o movimento da bola até que o espaço seja teclado
                     
-                    // Retorna a cor da bola para vermelho
+                    // Retorna a cor da bola para amarelo claro
                     ballColorRed = 1.0f;
-                    ballColorGreen = 0.0f;
-                    ballColorBlue = 0.0f;
+                    ballColorGreen = 1.0f;
+                    ballColorBlue = 0.65f;
                     
                     // Retira vidas
                     this.livesLeft();
@@ -236,6 +240,26 @@ public class Cena implements GLEventListener {
                 }
             }
         }
+    }
+    
+    public void iluminacaoAmbiente(GL2 gl, float ballPositionX, float ballPositionY) {
+        float luzAmbiente[] = { 1.0f, 0.0f, 0.0f, 0.5f }; //cor
+        float posicaoLuz[] = {ballPositionX, ballPositionY, 1.0f, 1.0f}; //pontual
+
+        // define parametros de luz de número 0 (zero)
+        gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_AMBIENT, luzAmbiente, 0);
+        gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, posicaoLuz, 0);
+
+        gl.glEnable(GL2.GL_COLOR_MATERIAL);
+
+        // habilita o uso da iluminação na cena
+        gl.glEnable(GL2.GL_LIGHTING);
+        // habilita a luz de número 0
+        gl.glEnable(GL2.GL_LIGHT0);
+        // Especifica o Modelo de tonalização a ser utilizado
+        // GL_FLAT -> modelo de tonalização flat
+        // GL_SMOOTH -> modelo de tonalização GOURAUD (default)
+        gl.glShadeModel(GL2.GL_SMOOTH);
     }
     
     // Função para retirar as vidas do jogador
@@ -258,7 +282,6 @@ public class Cena implements GLEventListener {
         ballVelocityY *= 1.5f;
         setFase(2);
     }
-
     
     public float getEixoX() {
         return eixoX;
