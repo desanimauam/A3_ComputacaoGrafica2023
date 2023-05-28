@@ -10,6 +10,9 @@ public class KeyBoard implements KeyListener {
     private final static int setaBaixo = 152;
     private final static int setaEsquerda = 149;
     private final static int setaDireita = 151;
+    private final static int pause = 80;
+    private static boolean isPaused = false;
+    private final static int stop = 84;
 
     public KeyBoard(Cena cena) {
         this.cena = cena;
@@ -22,36 +25,46 @@ public class KeyBoard implements KeyListener {
             System.exit(0);
 
         switch (e.getKeyCode()) {
+            
             case setaDireita:
-                System.out.println("Direita no eixo X");
-                if (cena.getEixoX() < 1.6f) {
-                    cena.setEixoX(cena.getEixoX() + 0.05f);
-                    System.out.println(cena.getEixoX());
-                } else
-                    cena.setEixoX(cena.getEixoX() + 0.0f);
-                cena.setSentidoBarra("direita");
+                if (!isPaused) {
+                    System.out.println("Direita no eixo X");
+                    if (cena.getEixoX() < 1.6f) {
+                        cena.setEixoX(cena.getEixoX() + 0.05f);
+                        System.out.println(cena.getEixoX());
+                    } else
+                        cena.setEixoX(cena.getEixoX() + 0.0f);
+                    cena.setSentidoBarra("direita");
+                }
                 break;
+                
             case setaEsquerda:
-                System.out.println("Esquerda no eixo X");
-                if (cena.getEixoX() > -1.6f) {
-                    cena.setEixoX(cena.getEixoX() - 0.05f);
-                    System.out.println(cena.getEixoX());
-                } else
-                    cena.setEixoX(cena.getEixoX() + 0.0f);
-                cena.setSentidoBarra("esquerda");
-                break;
-            case setaCima:
-                System.out.println("Subindo no eixo Y");
-                cena.setEixoY(cena.getEixoY() + 0.05f);
-                break;
-            case setaBaixo:
-                System.out.println("Descendo no eixo Y");
-                cena.setEixoY(cena.getEixoY() - 0.05f);
+                if (!isPaused) {
+                    System.out.println("Esquerda no eixo X");
+                    if (cena.getEixoX() > -1.6f) {
+                        cena.setEixoX(cena.getEixoX() - 0.05f);
+                        System.out.println(cena.getEixoX());
+                    } else
+                        cena.setEixoX(cena.getEixoX() + 0.0f);
+                    cena.setSentidoBarra("esquerda");
+                }
                 break;
                 
             case KeyEvent.VK_SPACE:
                 System.out.println("Espaço pressionado");
                 cena.isBallMoving = true; // Iniciar o movimento da bola
+                isPaused = false;
+                break;
+                
+            case pause:
+                System.out.println("Pausado");
+                cena.isBallMoving = false; // Para a bola
+                isPaused = true;
+                break;
+                
+            case stop:
+                System.out.println("Jogo encerrado pelo usuario");
+                cena.stopGame();
                 break;
         }
     }
