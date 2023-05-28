@@ -37,6 +37,13 @@ public class Cena implements GLEventListener {
     // Variável do placar
     private int score = 0;
     private int level = 1;
+    
+    // Variáveis do obstáculo
+    private float obstaclePositionXMin = -0.5f;
+    private float obstaclePositionXMax = 0.5f;
+    private float obstaclePositionYMin = 0.3f;
+    private float obstaclePositionYMax = 1f;
+    
 
     @Override
     public void init(GLAutoDrawable drawable) {
@@ -103,6 +110,19 @@ public class Cena implements GLEventListener {
             gl.glVertex2f(-0.2f, 0);
             gl.glEnd();
         gl.glPopMatrix();
+        
+        if(getFase() == 2){
+            // Desenha o retangulo
+            gl.glPushMatrix();
+                gl.glColor3f(1, 1, 1);
+                gl.glBegin(GL2.GL_QUADS);
+                gl.glVertex2f(obstaclePositionXMin, obstaclePositionYMin);
+                gl.glVertex2f(obstaclePositionXMax, obstaclePositionYMin);
+                gl.glVertex2f(obstaclePositionXMax, obstaclePositionYMax);
+                gl.glVertex2f(obstaclePositionXMin, obstaclePositionYMax);
+                gl.glEnd();
+            gl.glPopMatrix();
+        }
 
         cordenadas(gl); // linha vertical e horizontal
     }
@@ -224,6 +244,64 @@ public class Cena implements GLEventListener {
                     ballPositionY = yMin + ballSize;
                 }
             }
+
+            // Verificações de colisão com o obstáculo
+            // verifica colisão com o lado esquerdo do obstáculo
+            if (getFase() == 2 &&
+                ballPositionX < obstaclePositionXMin && 
+                ballPositionX + ballSize >= obstaclePositionXMin && 
+                ballPositionY + ballSize <= obstaclePositionYMax && 
+                ballPositionY - ballSize >= obstaclePositionYMin){
+                // Inverte a direção da bola no eixo X
+                ballVelocityX *= -1;
+
+                // Altera a cor da bola para azul
+                ballColorRed = 0.0f;
+                ballColorGreen = 0.0f;
+                ballColorBlue = 1.0f;
+            }
+            // verifica colisão com o lado direito do obstáculo
+            if (getFase() == 2 &&
+                ballPositionX > obstaclePositionXMax && 
+                ballPositionX - ballSize <= obstaclePositionXMax && 
+                ballPositionY + ballSize <= obstaclePositionYMax && 
+                ballPositionY - ballSize >= obstaclePositionYMin){
+                // Inverte a direção da bola no eixo X
+                ballVelocityX *= -1;
+
+                // Altera a cor da bola para azul
+                ballColorRed = 0.0f;
+                ballColorGreen = 0.0f;
+                ballColorBlue = 1.0f;
+            }
+            // verifica colisão com a parte inferior do obstaculo
+            if (getFase() == 2 &&
+                ballPositionY < obstaclePositionYMin && 
+                ballPositionY + ballSize >= obstaclePositionYMin &&
+                ballPositionX + ballSize <= obstaclePositionXMax && 
+                ballPositionX - ballSize >= obstaclePositionXMin){
+                // Inverte a direção da bola no eixo Y
+                ballVelocityY *= -1;
+
+                // Altera a cor da bola para verde
+                ballColorRed = 0.0f;
+                ballColorGreen = 1.0f;
+                ballColorBlue = 0.0f;
+            }
+            // verifica colisão com a parte superior do obstaculo
+            if(getFase() == 2 &&
+                ballPositionY > obstaclePositionYMax && 
+                ballPositionY - ballSize >= obstaclePositionYMax &&
+                ballPositionX + ballSize <= obstaclePositionXMax && 
+                ballPositionX - ballSize >= obstaclePositionXMin){
+                // Inverte a direção da bola no eixo Y
+                ballVelocityY *= -1;
+
+                // Altera a cor da bola para verde
+                ballColorRed = 0.0f;
+                ballColorGreen = 1.0f;
+                ballColorBlue = 0.0f;
+            }
             else {
 
                 // Caso a bola não toque no retângulo amarelo, retorna ao centro da tela
@@ -300,8 +378,8 @@ public class Cena implements GLEventListener {
     }
     
     public void mudarLevel(){
-        ballVelocityX *= 1.5f;
-        ballVelocityY *= 1.5f;
+        ballVelocityX *= 1.2f;
+        ballVelocityY *= 1.2f;
         setFase(2);
     }
     
