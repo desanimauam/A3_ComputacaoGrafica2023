@@ -71,13 +71,16 @@ public class Cena implements GLEventListener {
         }
         
         // Mostra o placar na tela
-        desenhaTexto(gl,20,aula02.cena.Renderer.screenHeight-100, Color.GREEN, "Placar: " + getScore());
+        desenhaTexto(gl,20, aula02.cena.Renderer.screenHeight-100, Color.GREEN, "Placar: " + getScore());
         
         // Mostra a fase na tela
-        desenhaTexto(gl,20,aula02.cena.Renderer.screenHeight-150, Color.WHITE, "Fase: " + getFase());
+        desenhaTexto(gl,20, aula02.cena.Renderer.screenHeight-150, Color.WHITE, "Fase: " + getFase());
         
         // Mostra a quantidade de vidas na tela
-        desenhaTexto(gl,20,aula02.cena.Renderer.screenHeight-50, Color.YELLOW, "Vidas restantes: " + getLives());
+        desenhaTexto(gl,20, aula02.cena.Renderer.screenHeight-50, Color.YELLOW, "Vidas restantes: " + getLives());
+        
+        // Mostra a quantidade de vidas na tela
+        desenhaTexto(gl,1250, aula02.cena.Renderer.screenHeight-50, Color.WHITE, "Iniciar/voltar: espaço | Pausa: p | Parar: t");
         
         // Desenhar a bola
         gl.glPushMatrix();
@@ -242,6 +245,21 @@ public class Cena implements GLEventListener {
         }
     }
     
+    public void stopGame() {
+            ballPositionX = 0;
+            ballPositionY = 0;
+            isBallMoving = false; // Para o movimento da bola até que o espaço seja teclado
+                    
+            // Retorna a cor da bola para amarelo claro
+            ballColorRed = 1.0f;
+            ballColorGreen = 1.0f;
+            ballColorBlue = 0.65f;
+            
+            this.setLives(5);
+            this.setScore(0);
+            this.setFase(1);
+    }
+    
     public void iluminacaoAmbiente(GL2 gl, float ballPositionX, float ballPositionY) {
         float luzAmbiente[] = { 1.0f, 0.0f, 0.0f, 0.5f }; //cor
         float posicaoLuz[] = {ballPositionX, ballPositionY, 1.0f, 1.0f}; //pontual
@@ -271,6 +289,10 @@ public class Cena implements GLEventListener {
      
     public int marcarPontuacao(){
         return this.score += 20;
+    }
+    
+    public void setScore(int score) {
+        this.score = score;
     }
     
     public int getScore(){
