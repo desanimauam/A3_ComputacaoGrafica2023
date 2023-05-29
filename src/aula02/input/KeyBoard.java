@@ -1,11 +1,14 @@
 package aula02.input;
 
 import aula02.cena.Cena;
+import aula02.cena.Iniciar;
+import aula02.cena.Renderer;
 import com.jogamp.newt.event.KeyEvent;
 import com.jogamp.newt.event.KeyListener;
 
 public class KeyBoard implements KeyListener {
     private Cena cena;
+    private Iniciar iniciar;
     private final static int setaCima = 150;
     private final static int setaBaixo = 152;
     private final static int setaEsquerda = 149;
@@ -17,10 +20,14 @@ public class KeyBoard implements KeyListener {
     public KeyBoard(Cena cena) {
         this.cena = cena;
     }
+    public KeyBoard(Iniciar iniciar){ this.iniciar = iniciar; }
 
     @Override
     public void keyPressed(KeyEvent e) {
+        int contador = 0, contador2 = 0;
+
         System.out.println("Key pressed: " + e.getKeyCode());
+
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
             System.exit(0);
 
@@ -52,10 +59,10 @@ public class KeyBoard implements KeyListener {
                 
             case KeyEvent.VK_SPACE:
                 System.out.println("Espaço pressionado");
-                cena.isBallMoving = true; // Iniciar o movimento da bola
-                isPaused = false;
-                break;
-                
+                    cena.isBallMoving = true; // Iniciar o movimento da bola
+                    isPaused = false;
+                    break;
+
             case pause:
                 System.out.println("Pausado");
                 cena.isBallMoving = false; // Para a bola
