@@ -13,7 +13,7 @@ import java.awt.Toolkit;
 public class Renderer {
     private static GLWindow window = null;
     public static int screenWidth = 0;  //1280
-    public static int screenHeight = 0; //960 
+    public static int screenHeight = 0; //960
 
     // Cria a janela de renderização do JOGL
     public static void init() {
@@ -32,6 +32,7 @@ public class Renderer {
         screenHeight = d.height;
 
         window.setSize(screenWidth, screenHeight);
+
 
         Cena cena = new Cena();
 
@@ -57,4 +58,5 @@ public class Renderer {
     public static void main(String[] args) {
         init();
     }
+
 }

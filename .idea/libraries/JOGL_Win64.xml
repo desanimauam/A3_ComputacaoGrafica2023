@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="JOGL_Win64">
+    <CLASSES>
+      <root url="file://D:/helle/java lib/JOGL_Win64" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://D:/helle/java lib/JOGL_Win64" />
+    </SOURCES>
+    <jarDirectory url="file://D:/helle/java lib/JOGL_Win64" recursive="false" />
+    <jarDirectory url="file://D:/helle/java lib/JOGL_Win64" recursive="false" type="SOURCES" />
+  </library>
+</component>
