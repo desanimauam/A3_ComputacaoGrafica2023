@@ -262,7 +262,7 @@ public class Cena implements GLEventListener {
             // Verifica colisão com o retângulo amarelo
             if (ballPositionX - ballSize <= eixoX + 0.2f && ballPositionX + ballSize >= eixoX - 0.2f && ballPositionY - ballSize <= -1.8f) {
                 
-                // Verifica se o sentido do mocimento da barra e com a bola
+                // Verifica se o sentido do movimento da barra e com a bola
                 if (sentido.equals("direita") && ballVelocityX < 0) {
                 //  Inverte a direção da bola no eixo X com uma pequena mudança de rota
                     ballVelocityX = -1 * ballVelocityX + (float) Math.random() * 0.003f;
@@ -307,6 +307,15 @@ public class Cena implements GLEventListener {
                 ballColorGreen = 0.65f;
                 ballColorBlue = 1.0f;
             }
+
+            // Verifica os pontos x e y das vértices do obstáculo
+            if(getFase() == 2 &&
+              ((ballPositionY == 0.3 && ballPositionX == 0.4) ||
+               (ballPositionY == 1 && ballPositionX == 1.4))){
+            // Inverte a velocidade no eixo x
+                ballVelocityX *=1;
+            }
+
             // verifica colisão com o lado direito do obstáculo
             if (getFase() == 2 &&
                 ballPositionX > obstaclePositionXMax && 
