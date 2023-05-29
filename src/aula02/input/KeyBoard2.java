@@ -31,9 +31,12 @@ public class KeyBoard2 implements KeyListener {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
             System.exit(0);
 
+
         if (e.getKeyCode() == KeyEvent.VK_SPACE)
             Renderer.init();
+            Renderer2.Close();
     }
+
 
     @Override
     public void keyReleased(KeyEvent e) {

@@ -42,6 +42,20 @@ public class Iniciar implements GLEventListener{
         desenhaTexto(gl,570, aula02.cena.Renderer2.screenHeight-500, Color.red, "Pressine ESC para sair");
     }
 
+    public void display2(GLAutoDrawable drawable) {
+//        //obtem o contexto Opengl
+        GL2 gl = drawable.getGL().getGL2();
+        //define a cor da janela (R, G, G, alpha)
+        gl.glClearColor(0, 0, 0, 1);
+        //limpa a janela com a cor especificada
+        gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        gl.glLoadIdentity(); //lê a matriz identidade
+
+        desenhaTexto(gl,660, aula02.cena.Renderer2.screenHeight-350, Color.MAGENTA, "BEM-VINDO!");
+        desenhaTexto(gl,520, aula02.cena.Renderer2.screenHeight-450, Color.WHITE, "Pressine ESPAÇO para iniciar");
+        desenhaTexto(gl,570, aula02.cena.Renderer2.screenHeight-500, Color.red, "Pressine ESC para sair");
+    }
+
     @Override
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
         // Obtenha o contexto gráfico OpenGL
