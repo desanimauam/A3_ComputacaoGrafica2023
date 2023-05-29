@@ -56,7 +56,7 @@ public class Renderer2 {
         window.setVisible(true);
     }
 
-    public void Close(){
+    public static void Close(){
         window.setVisible(false);
     }
 
