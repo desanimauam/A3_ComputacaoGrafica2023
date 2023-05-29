@@ -51,4 +51,18 @@ public class Circulo {
             }
         gl.glEnd();
     }
+
+    // gera os círculos posicionados de acordo com a sua quantidade
+    public void draw2(GL2 gl, double cX, double cY){
+        //para 1/2 circulo: Math.PI
+        double limite = 2*Math.PI;
+        double i;
+
+        gl.glBegin(GL2.GL_POLYGON);
+        for(i = 0; i < limite; i += 0.01){
+            gl.glVertex2d(cX + rX * Math.cos(i),
+                    cY + rY * Math.sin(i));
+        }
+        gl.glEnd();
+    }
 }
