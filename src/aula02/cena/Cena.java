@@ -93,7 +93,7 @@ public class Cena implements GLEventListener {
         } else { // encerra o jogo caso as vidas tenham acabado
             this.stopGame();
         }
-        
+
         // Mostra o placar na tela
         desenhaTexto(gl,20, aula02.cena.Renderer.screenHeight-100, Color.GREEN, "Placar: " + getScore());
         
@@ -101,10 +101,22 @@ public class Cena implements GLEventListener {
         desenhaTexto(gl,20, aula02.cena.Renderer.screenHeight-150, Color.WHITE, "Fase: " + getFase());
         
         // Mostra a quantidade de vidas na tela
-        desenhaTexto(gl,20, aula02.cena.Renderer.screenHeight-50, Color.YELLOW, "Vidas restantes: " + getLives());
+        desenhaTexto(gl,20, aula02.cena.Renderer.screenHeight-50, Color.YELLOW, "Vidas restantes: ");
         
         // Mostra a quantidade de vidas na tela
         desenhaTexto(gl,1250, aula02.cena.Renderer.screenHeight-50, Color.WHITE, "Iniciar/voltar: espaço | Pausa: p | Parar: t");
+
+        //Inclusão de representação das vidas por bolinhas
+        if(getLives() > 0){
+            int i;
+            double cX = -1.2, cY = 1.75;
+            for (i=0; i< getLives(); i++){
+                Circulo circulo = new Circulo(ballSize);
+                circulo.draw2(gl, cX, cY);
+                cX = cX + 0.1;
+                gl.glPopMatrix();
+            }
+        }
         
         // Desenhar a bola
         gl.glPushMatrix();
