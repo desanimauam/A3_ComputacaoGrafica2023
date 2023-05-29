@@ -10,7 +10,7 @@ import java.awt.Color;
 import java.awt.Font;
 import aula02.textura.Textura;
 
-public class Iniciar implements GLEventListener{
+public class Instrucao implements GLEventListener{
     private float xMin, xMax, yMin, yMax, zMin, zMax;
     GLU glu;
     private TextRenderer textRenderer; // Mostrar texto no SRU
@@ -37,10 +37,12 @@ public class Iniciar implements GLEventListener{
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
         gl.glLoadIdentity(); //lê a matriz identidade
 
-        desenhaTexto(gl,660, aula02.cena.Renderer2.screenHeight-300, Color.MAGENTA, "BEM-VINDO!");
-        desenhaTexto(gl,520, aula02.cena.Renderer2.screenHeight-450, Color.WHITE, "Pressine ESPAÇO para iniciar");
-        desenhaTexto(gl,570, aula02.cena.Renderer2.screenHeight-500, Color.red, "Pressine ESC para sair");
-        desenhaTexto(gl,430, aula02.cena.Renderer2.screenHeight-800, Color.YELLOW, "Pressine I para abrir as instruções do jogo");
+        desenhaTexto(gl,660, aula02.cena.Renderer3.screenHeight-100, Color.MAGENTA, "COMO JOGAR:");
+        desenhaTexto(gl,100, aula02.cena.Renderer3.screenHeight-300, Color.white, "Utilize as setas do teclados para mover a barra para ESQUERDA ou DIREITA");
+        desenhaTexto(gl,100, aula02.cena.Renderer3.screenHeight-350, Color.white, "Pressione o ESPAÇO para soltar a bolinha");
+        desenhaTexto(gl,100, aula02.cena.Renderer3.screenHeight-400, Color.white, "Pressine P para pausar");
+        desenhaTexto(gl,100, aula02.cena.Renderer3.screenHeight-450, Color.white, "Pressine T para reiniciar");
+        desenhaTexto(gl,100, aula02.cena.Renderer3.screenHeight-500, Color.white, "Pressine ESC para sair");
     }
 
     @Override

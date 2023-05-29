@@ -1,9 +1,6 @@
 package aula02.input;
 
-import aula02.cena.Cena;
-import aula02.cena.Iniciar;
-import aula02.cena.Renderer;
-import aula02.cena.Renderer2;
+import aula02.cena.*;
 import com.jogamp.newt.event.KeyEvent;
 import com.jogamp.newt.event.KeyListener;
 
@@ -34,6 +31,10 @@ public class KeyBoard2 implements KeyListener {
 
         if (e.getKeyCode() == KeyEvent.VK_SPACE)
             Renderer.init();
+            Renderer2.Close();
+
+        if (e.getKeyCode() == start)
+            Renderer3.init();
             Renderer2.Close();
     }
 
