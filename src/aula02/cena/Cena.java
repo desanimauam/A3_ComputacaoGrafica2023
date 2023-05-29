@@ -372,6 +372,10 @@ public class Cena implements GLEventListener {
             this.setScore(0);
             this.setFase(1);
             this.update();
+            
+            // Retorna a velocidade original
+            ballVelocityX = 0.02f;
+            ballVelocityY = 0.02f;
     }
     
     public void iluminacaoAmbiente(GL2 gl, float ballPositionX, float ballPositionY) {
@@ -414,8 +418,8 @@ public class Cena implements GLEventListener {
     }
     
     public void mudarLevel(){
-        ballVelocityX *= 1.2f;
-        ballVelocityY *= 1.2f;
+        ballVelocityX *= 1.8f;
+        ballVelocityY *= 1.8f;
         setFase(2);
     }
     
