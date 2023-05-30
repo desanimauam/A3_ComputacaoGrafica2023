@@ -17,6 +17,9 @@ public class Cena implements GLEventListener {
     private int lives = 5; // Quantidade padrão de vidas
     private TextRenderer textRenderer; // Mostrar texto no SRU
     
+    // Variáveis tela
+    private String tela = "inicial";
+    
     // Variáveis de cores
     private float ballColorRed = 1.0f;
     private float ballColorGreen = 1.0f;
@@ -84,94 +87,110 @@ public class Cena implements GLEventListener {
         GL2 gl = drawable.getGL().getGL2();
         configuraDisplay(gl);
         
-        iluminacaoAmbiente(gl, ballPositionX, ballPositionY);
-        
-        // Roda a atualização se o jogador ainda possui vidas
-        if (this.getLives() > 0) {
-            // Atualiza a posição da bola e verifica as colisões
-            update();
-        } else { // encerra o jogo caso as vidas tenham acabado
-            this.stopGame();
+        if (getTela()== "inicial"){
+            desenhaTexto(gl,660, aula02.cena.Renderer.screenHeight-300, Color.MAGENTA, "BEM-VINDO!");
+            desenhaTexto(gl,520, aula02.cena.Renderer.screenHeight-450, Color.WHITE, "Pressine ESPAÇO para iniciar");
+            desenhaTexto(gl,570, aula02.cena.Renderer.screenHeight-500, Color.red, "Pressine ESC para sair");
+            desenhaTexto(gl,430, aula02.cena.Renderer.screenHeight-800, Color.YELLOW, "Pressine I para abrir as instruções do jogo");
         }
-
-        // Mostra o placar na tela
-        desenhaTexto(gl,20, aula02.cena.Renderer.screenHeight-100, Color.GREEN, "Placar: " + getScore());
         
-        // Mostra a fase na tela
-        desenhaTexto(gl,20, aula02.cena.Renderer.screenHeight-150, Color.WHITE, "Fase: " + getFase());
+        if(getTela()=="instrucoes"){
+            desenhaTexto(gl,660, aula02.cena.Renderer.screenHeight-100, Color.MAGENTA, "COMO JOGAR:");
+            desenhaTexto(gl,100, aula02.cena.Renderer.screenHeight-300, Color.white, "Utilize as setas do teclados para mover a barra para ESQUERDA ou DIREITA");
+            desenhaTexto(gl,100, aula02.cena.Renderer.screenHeight-350, Color.white, "Pressione o ESPAÇO para soltar a bolinha");
+            desenhaTexto(gl,100, aula02.cena.Renderer.screenHeight-400, Color.white, "Pressine P para pausar");
+            desenhaTexto(gl,100, aula02.cena.Renderer.screenHeight-450, Color.white, "Pressine T para reiniciar");
+            desenhaTexto(gl,100, aula02.cena.Renderer.screenHeight-500, Color.white, "Pressine ESC para sair");
+        }
         
-        // Mostra a quantidade de vidas na tela
-        desenhaTexto(gl,20, aula02.cena.Renderer.screenHeight-50, Color.YELLOW, "Vidas restantes: ");
+        if(getTela()=="jogo"){
+            iluminacaoAmbiente(gl, ballPositionX, ballPositionY);
         
-        // Mostra a quantidade de vidas na tela
-        desenhaTexto(gl,1250, aula02.cena.Renderer.screenHeight-50, Color.WHITE, "Iniciar/voltar: espaço | Pausa: p | Parar: t");
-
-        //Inclusão de representação das vidas por bolinhas
-        if(getLives() > 0){
-            int i;
-            double cX = -1.2, cY = 1.75;
-            for (i=0; i< getLives(); i++){
-                Circulo circulo = new Circulo(ballSize);
-                circulo.draw2(gl, cX, cY);
-                cX = cX + 0.1;
-                gl.glPopMatrix();
+            // Roda a atualização se o jogador ainda possui vidas
+            if (this.getLives() > 0) {
+                // Atualiza a posição da bola e verifica as colisões
+                update();
+            } else { // encerra o jogo caso as vidas tenham acabado
+                this.stopGame();
             }
-        }
-        
-        // Desenhar a bola
-        gl.glPushMatrix();
-        gl.glColor3f(ballColorRed, ballColorGreen, ballColorBlue); // Começa amarelo-claro por padrão
-        gl.glTranslatef(ballPositionX, ballPositionY, 0);
 
-        // Desenha o círculo
-        Circulo circulo = new Circulo(ballSize);
-        circulo.draw(gl);
-        gl.glPopMatrix();
-        
-        // Desenha o retangulo
-        gl.glPushMatrix();
-            gl.glTranslatef(eixoX, -1.8f, 0);
-            gl.glColor3f(1, 1, 0);
-            gl.glBegin(GL2.GL_QUADS);
-            gl.glVertex2f(-0.2f, -0.1f);
-            gl.glVertex2f(0.2f, -0.1f);
-            gl.glVertex2f(0.2f, 0);
-            gl.glVertex2f(-0.2f, 0);
-            gl.glEnd();
-        gl.glPopMatrix();
-        
-        
-        
-        if(getFase() == 2){
-            
-            // Desenha um cubo no qual a textura eh aplicada
-            //não é geração de textura automática
-            textura.setAutomatica(false);
+            // Mostra o placar na tela
+            desenhaTexto(gl,20, aula02.cena.Renderer.screenHeight-100, Color.GREEN, "Placar: " + getScore());
 
-            //configura os filtros
-            textura.setFiltro(filtro);
-            textura.setModo(modo);
-            textura.setWrap(wrap);  
+            // Mostra a fase na tela
+            desenhaTexto(gl,20, aula02.cena.Renderer.screenHeight-150, Color.WHITE, "Fase: " + getFase());
 
-            //cria a textura indicando o local da imagem e o índice
-            textura.gerarTextura(gl, FACE1, 0);
+            // Mostra a quantidade de vidas na tela
+            desenhaTexto(gl,20, aula02.cena.Renderer.screenHeight-50, Color.YELLOW, "Vidas restantes: ");
+
+            // Mostra as instrucoes na tela
+            desenhaTexto(gl,1250, aula02.cena.Renderer.screenHeight-50, Color.WHITE, "Iniciar/voltar: espaço | Pausa: p | Parar: t");
+
+            //Inclusão de representação das vidas por bolinhas
+            if(getLives() > 0){
+                int i;
+                double cX = -1.2, cY = 1.75;
+                for (i=0; i< getLives(); i++){
+                    Circulo circulo = new Circulo(ballSize);
+                    circulo.draw2(gl, cX, cY);
+                    cX = cX + 0.1;
+                    gl.glPopMatrix();
+                }
+            }
+
+            // Desenhar a bola
+            gl.glPushMatrix();
+            gl.glColor3f(ballColorRed, ballColorGreen, ballColorBlue); // Começa amarelo-claro por padrão
+            gl.glTranslatef(ballPositionX, ballPositionY, 0);
+
+            // Desenha o círculo
+            Circulo circulo = new Circulo(ballSize);
+            circulo.draw(gl);
+            gl.glPopMatrix();
 
             // Desenha o retangulo
             gl.glPushMatrix();
-                gl.glColor3f(1, 1, 1);
+                gl.glTranslatef(eixoX, -1.8f, 0);
+                gl.glColor3f(1, 1, 0);
                 gl.glBegin(GL2.GL_QUADS);
-                gl.glTexCoord2f(0.0f, 0.0f);    gl.glVertex2f(obstaclePositionXMin, obstaclePositionYMin);
-                gl.glTexCoord2f(limite, 0.0f);  gl.glVertex2f(obstaclePositionXMax, obstaclePositionYMin);
-                gl.glTexCoord2f(limite, limite);    gl.glVertex2f(obstaclePositionXMax, obstaclePositionYMax);
-                gl.glTexCoord2f(0.0f, limite);  gl.glVertex2f(obstaclePositionXMin, obstaclePositionYMax);
+                gl.glVertex2f(-0.2f, -0.1f);
+                gl.glVertex2f(0.2f, -0.1f);
+                gl.glVertex2f(0.2f, 0);
+                gl.glVertex2f(-0.2f, 0);
                 gl.glEnd();
             gl.glPopMatrix();
-            
-             //desabilita a textura indicando o índice
-            textura.desabilitarTextura(gl, 0);
-        }
 
-        cordenadas(gl); // linha vertical e horizontal
+
+
+            if(getFase() == 2){
+
+                // Desenha um cubo no qual a textura eh aplicada
+                //não é geração de textura automática
+                textura.setAutomatica(false);
+
+                //configura os filtros
+                textura.setFiltro(filtro);
+                textura.setModo(modo);
+                textura.setWrap(wrap);  
+
+                //cria a textura indicando o local da imagem e o índice
+                textura.gerarTextura(gl, FACE1, 0);
+
+                // Desenha o retangulo
+                gl.glPushMatrix();
+                    gl.glColor3f(1, 1, 1);
+                    gl.glBegin(GL2.GL_QUADS);
+                    gl.glTexCoord2f(0.0f, 0.0f);    gl.glVertex2f(obstaclePositionXMin, obstaclePositionYMin);
+                    gl.glTexCoord2f(limite, 0.0f);  gl.glVertex2f(obstaclePositionXMax, obstaclePositionYMin);
+                    gl.glTexCoord2f(limite, limite);    gl.glVertex2f(obstaclePositionXMax, obstaclePositionYMax);
+                    gl.glTexCoord2f(0.0f, limite);  gl.glVertex2f(obstaclePositionXMin, obstaclePositionYMax);
+                    gl.glEnd();
+                gl.glPopMatrix();
+
+                 //desabilita a textura indicando o índice
+                textura.desabilitarTextura(gl, 0);
+            }
+        }
     }
 
     @Override
@@ -213,21 +232,6 @@ public class Cena implements GLEventListener {
     public void configuraDisplay(GL2 gl){
         gl.glClearColor(0,0,0,0);
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
-    }
-    
-    public void cordenadas(GL2 gl){
-        // Desenha a linha horizontal
-        gl.glColor3f(1, 1, 1);
-        gl.glBegin(GL2.GL_LINES);
-        gl.glVertex2f(xMin, 0);
-        gl.glVertex2f(xMax, 0);
-        gl.glEnd();
-        
-        // Desenha a linha vertical
-        gl.glBegin(GL2.GL_LINES);
-        gl.glVertex2f(0, yMin);
-        gl.glVertex2f(0, yMax);
-        gl.glEnd();
     }
     
     public void update() {
@@ -481,11 +485,19 @@ public class Cena implements GLEventListener {
         return level;
     }
 
-    // Mostrar texto na tela
     public void setFase(int level){
         this.level = level;
     }
     
+    public String getTela(){
+        return tela;
+    }
+    
+    public void setTela(String tela){
+        this.tela = tela;
+    }
+    
+     // Mostrar texto na tela   
     public void desenhaTexto(GL2 gl, int xPosicao, int yPosicao, Color cor, String frase){         
         gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
         //Retorna a largura e altura da janela
