@@ -297,49 +297,42 @@ public class Cena implements GLEventListener {
             }
 
             // Verificações de colisão com o obstáculo
-            // verifica colisão com o lado esquerdo do obstáculo
+            // Verifica colisão com o lado esquerdo do obstáculo
             if (getFase() == 2 &&
-                ballPositionX < obstaclePositionXMin && 
-                ballPositionX + ballSize >= obstaclePositionXMin && 
-                ballPositionY + ballSize <= obstaclePositionYMax && 
-                ballPositionY - ballSize >= obstaclePositionYMin){
-                // Inverte a direção da bola no eixo X
-                ballVelocityX *= -1;
-
-                // Altera a cor da bola para azul-claro
-                ballColorRed = 0.65f;
-                ballColorGreen = 0.65f;
-                ballColorBlue = 1.0f;
-            }
-
-            // Verifica os pontos x e y das vértices do obstáculo
-            if(getFase() == 2 &&
-              ((ballPositionY == 0.3 && ballPositionX == 0.4) ||
-               (ballPositionY == 1 && ballPositionX == 1.4))){
-            // Inverte a velocidade no eixo x
-                ballVelocityX *=1;
-            }
-
-            // verifica colisão com o lado direito do obstáculo
-            if (getFase() == 2 &&
-                ballPositionX > obstaclePositionXMax && 
-                ballPositionX - ballSize <= obstaclePositionXMax && 
-                ballPositionY + ballSize <= obstaclePositionYMax && 
-                ballPositionY - ballSize >= obstaclePositionYMin){
-                // Inverte a direção da bola no eixo X
-                ballVelocityX *= -1;
-
-                // Altera a cor da bola para azul-claro
-                ballColorRed = 0.65f;
-                ballColorGreen = 0.65f;
-                ballColorBlue = 1.0f;
-            }
-            // verifica colisão com a parte inferior do obstaculo
-            if (getFase() == 2 &&
-                ballPositionY < obstaclePositionYMin && 
+                ballPositionX - ballSize <= obstaclePositionXMin &&
+                ballPositionX + ballSize >= obstaclePositionXMin &&
                 ballPositionY + ballSize >= obstaclePositionYMin &&
-                ballPositionX + ballSize <= obstaclePositionXMax && 
-                ballPositionX - ballSize >= obstaclePositionXMin){
+                ballPositionY - ballSize <= obstaclePositionYMax) {
+                // Inverte a direção da bola no eixo X
+                ballVelocityX *= -1;
+
+                // Altera a cor da bola para azul-claro
+                ballColorRed = 0.65f;
+                ballColorGreen = 0.65f;
+                ballColorBlue = 1.0f;
+            }
+
+            // Verifica colisão com o lado direito do obstáculo
+            if (getFase() == 2 &&
+                ballPositionX + ballSize >= obstaclePositionXMax &&
+                ballPositionX - ballSize <= obstaclePositionXMax &&
+                ballPositionY + ballSize >= obstaclePositionYMin &&
+                ballPositionY - ballSize <= obstaclePositionYMax) {
+                // Inverte a direção da bola no eixo X
+                ballVelocityX *= -1;
+
+                // Altera a cor da bola para azul-claro
+                ballColorRed = 0.65f;
+                ballColorGreen = 0.65f;
+                ballColorBlue = 1.0f;
+            }
+
+            // Verifica colisão com a parte inferior do obstáculo
+            if (getFase() == 2 &&
+                ballPositionY - ballSize <= obstaclePositionYMin &&
+                ballPositionY + ballSize >= obstaclePositionYMin &&
+                ballPositionX + ballSize >= obstaclePositionXMin &&
+                ballPositionX - ballSize <= obstaclePositionXMax) {
                 // Inverte a direção da bola no eixo Y
                 ballVelocityY *= -1;
 
@@ -348,18 +341,20 @@ public class Cena implements GLEventListener {
                 ballColorGreen = 1.0f;
                 ballColorBlue = 0.65f;
             }
-            // verifica colisão com a parte superior do obstaculo
-            if(getFase() == 2 &&
-                ballPositionY > obstaclePositionYMax &&
+
+            // Verifica colisão com a parte superior do obstáculo
+            if (getFase() == 2 &&
+                ballPositionY + ballSize >= obstaclePositionYMax &&
                 ballPositionY - ballSize <= obstaclePositionYMax &&
                 ballPositionX + ballSize >= obstaclePositionXMin &&
-                ballPositionX - ballSize <= obstaclePositionXMax){
-                    // Inverte a direção da bola no eixo Y
-                    ballVelocityY *= -1;
-                    // Altera a cor da bola para verde-claro
-                    ballColorRed = 0.65f;
-                    ballColorGreen = 1.0f;
-                    ballColorBlue = 0.65f;
+                ballPositionX - ballSize <= obstaclePositionXMax) {
+                // Inverte a direção da bola no eixo Y
+                ballVelocityY *= -1;
+
+                // Altera a cor da bola para verde-claro
+                ballColorRed = 0.65f;
+                ballColorGreen = 1.0f;
+                ballColorBlue = 0.65f;
             }
 
             else {
