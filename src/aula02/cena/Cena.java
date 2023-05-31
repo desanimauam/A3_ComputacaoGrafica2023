@@ -18,7 +18,7 @@ public class Cena implements GLEventListener {
     private TextRenderer textRenderer; // Mostrar texto no SRU
     
     // Variáveis tela
-    private String tela = "inicial";
+    private String screen = "initial";
     
     // Variáveis de cores
     private float ballColorRed = 1.0f;
@@ -26,9 +26,9 @@ public class Cena implements GLEventListener {
     private float ballColorBlue = 0.6f;
     
     // Variáveis barra
-    private float eixoX;
-    private float eixoY;
-    private String sentido = "neutro";
+    private float axisX;
+    private float axisY;
+    private String direction = "neutro";
     
     // Variáveis da bola
     private float ballPositionX = 0;
@@ -87,14 +87,14 @@ public class Cena implements GLEventListener {
         GL2 gl = drawable.getGL().getGL2();
         configuraDisplay(gl);
         
-        if (getTela()== "inicial"){
+        if (getScreen()== "initial"){
             desenhaTexto(gl,660, aula02.cena.Renderer.screenHeight-300, Color.MAGENTA, "BEM-VINDO!");
             desenhaTexto(gl,520, aula02.cena.Renderer.screenHeight-450, Color.WHITE, "Pressine ESPAÇO para iniciar");
             desenhaTexto(gl,570, aula02.cena.Renderer.screenHeight-500, Color.red, "Pressine ESC para sair");
             desenhaTexto(gl,430, aula02.cena.Renderer.screenHeight-800, Color.YELLOW, "Pressine I para abrir as instruções do jogo");
         }
         
-        if(getTela()=="instrucoes"){
+        if(getScreen()=="instruction"){
             desenhaTexto(gl,660, aula02.cena.Renderer.screenHeight-100, Color.MAGENTA, "COMO JOGAR:");
             desenhaTexto(gl,100, aula02.cena.Renderer.screenHeight-300, Color.white, "Utilize as setas do teclados para mover a barra para ESQUERDA ou DIREITA");
             desenhaTexto(gl,100, aula02.cena.Renderer.screenHeight-350, Color.white, "Pressione o ESPAÇO para soltar a bolinha");
@@ -103,7 +103,7 @@ public class Cena implements GLEventListener {
             desenhaTexto(gl,100, aula02.cena.Renderer.screenHeight-500, Color.white, "Pressine ESC para sair");
         }
         
-        if(getTela()=="jogo"){
+        if(getScreen()=="game"){
             iluminacaoAmbiente(gl, ballPositionX, ballPositionY);
         
             // Roda a atualização se o jogador ainda possui vidas
@@ -124,7 +124,7 @@ public class Cena implements GLEventListener {
             desenhaTexto(gl,20, aula02.cena.Renderer.screenHeight-50, Color.YELLOW, "Vidas restantes: ");
 
             // Mostra as instrucoes na tela
-            desenhaTexto(gl,1250, aula02.cena.Renderer.screenHeight-50, Color.WHITE, "Iniciar/voltar: espaço | Pausa: p | Parar: t");
+            desenhaTexto(gl,1250, aula02.cena.Renderer.screenHeight-50, Color.WHITE, "Iniciar/voltar: espaço | Pausa: p | Parar: t | Instruções: i");
 
             //Inclusão de representação das vidas por bolinhas
             if(getLives() > 0){
@@ -150,7 +150,7 @@ public class Cena implements GLEventListener {
 
             // Desenha o retangulo
             gl.glPushMatrix();
-                gl.glTranslatef(eixoX, -1.8f, 0);
+                gl.glTranslatef(axisX, -1.8f, 0);
                 gl.glColor3f(1, 1, 0);
                 gl.glBegin(GL2.GL_QUADS);
                 gl.glVertex2f(-0.2f, -0.1f);
@@ -264,13 +264,13 @@ public class Cena implements GLEventListener {
             }
 
             // Verifica colisão com o retângulo amarelo
-            if (ballPositionX - ballSize <= eixoX + 0.2f && ballPositionX + ballSize >= eixoX - 0.2f && ballPositionY - ballSize <= -1.8f) {
+            if (ballPositionX - ballSize <= axisX + 0.2f && ballPositionX + ballSize >= axisX - 0.2f && ballPositionY - ballSize <= -1.8f) {
                 
                 // Verifica se o sentido do movimento da barra e com a bola
-                if (sentido.equals("direita") && ballVelocityX < 0) {
+                if (direction.equals("direita") && ballVelocityX < 0) {
                 //  Inverte a direção da bola no eixo X com uma pequena mudança de rota
                     ballVelocityX = -1 * ballVelocityX + (float) Math.random() * 0.003f;
-                } else if (sentido.equals("esquerda") && ballVelocityX > 0) {
+                } else if (direction.equals("esquerda") && ballVelocityX > 0) {
                     ballVelocityX = -1 * ballVelocityX + (float) Math.random() * 0.001f;
                 }
                 
@@ -443,20 +443,20 @@ public class Cena implements GLEventListener {
         setFase(2);
     }
     
-    public float getEixoX() {
-        return eixoX;
+    public float getAxisX() {
+        return axisX;
     }
 
-    public void setEixoX(float eixoX) {
-        this.eixoX = eixoX;
+    public void setAxisX(float axisX) {
+        this.axisX = axisX;
     }
 
-    public float getEixoY() {
-        return eixoY;
+    public float getAxisY() {
+        return axisX;
     }
 
-    public void setEixoY(float eixoY) {
-        this.eixoY = eixoY;
+    public void setAxisY(float axisX) {
+        this.axisX = axisX;
     }
 
     public int getLives() {
@@ -467,13 +467,13 @@ public class Cena implements GLEventListener {
         this.lives = lives;
     }
     
-    public void setSentidoBarra(String sentido){
-        this.sentido = sentido;
-        System.out.println(this.sentido);
+    public void setBarDirection(String direction){
+        this.direction = direction;
+        System.out.println(this.direction);
     }
     
-    public String getSentidoBarra(){
-        return sentido;
+    public String getBarDirection(){
+        return direction;
     }
     
     public int getFase(){
@@ -484,12 +484,12 @@ public class Cena implements GLEventListener {
         this.level = level;
     }
     
-    public String getTela(){
-        return tela;
+    public String getScreen(){
+        return screen;
     }
     
-    public void setTela(String tela){
-        this.tela = tela;
+    public void setScreen(String screen){
+        this.screen = screen;
     }
     
      // Mostrar texto na tela   
