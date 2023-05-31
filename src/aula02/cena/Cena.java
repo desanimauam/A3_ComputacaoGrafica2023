@@ -124,7 +124,7 @@ public class Cena implements GLEventListener {
             desenhaTexto(gl,20, aula02.cena.Renderer.screenHeight-50, Color.YELLOW, "Vidas restantes: ");
 
             // Mostra as instrucoes na tela
-            desenhaTexto(gl,1250, aula02.cena.Renderer.screenHeight-50, Color.WHITE, "Iniciar/voltar: espaço | Pausa: p | Parar: t | Instruções: i");
+            desenhaTexto(gl,1050, aula02.cena.Renderer.screenHeight-50, Color.WHITE, "Iniciar/voltar: espaço | Pausa: p | Parar: t | Instruções: i");
 
             //Inclusão de representação das vidas por bolinhas
             if(getLives() > 0){
