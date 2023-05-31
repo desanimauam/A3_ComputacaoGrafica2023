@@ -6,10 +6,7 @@ import java.io.IOException;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureIO;
 
-/**
- *
- * @author Kakugawa
- */
+
 public class Textura {
     private Texture vetTextures[]; //novo   
     private float width;

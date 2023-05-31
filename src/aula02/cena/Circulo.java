@@ -1,14 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package aula02.cena;
 
 import com.jogamp.opengl.GL2;
-/**
- *
- * @author thevi
- */
+
 public class Circulo {
     private double rX;
     private double rY;
