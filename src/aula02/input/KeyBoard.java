@@ -6,10 +6,8 @@ import com.jogamp.newt.event.KeyListener;
 
 public class KeyBoard implements KeyListener {
     private Cena cena;
-    private final static int setaCima = 150;
-    private final static int setaBaixo = 152;
-    private final static int setaEsquerda = 149;
-    private final static int setaDireita = 151;
+    private final static int left = 149;
+    private final static int right = 151;
     private final static int pause = 80;
     private static boolean isPaused = false;
     private final static int stop = 84;
@@ -29,34 +27,34 @@ public class KeyBoard implements KeyListener {
 
         switch (e.getKeyCode()) {
             
-            case setaDireita:
+            case right:
                 if (!isPaused) {
                     System.out.println("Direita no eixo X");
-                    if (cena.getEixoX() < 1.6f) {
-                        cena.setEixoX(cena.getEixoX() + 0.05f);
-                        System.out.println(cena.getEixoX());
+                    if (cena.getAxisX() < 1.6f) {
+                        cena.setAxisX(cena.getAxisX() + 0.05f);
+                        System.out.println(cena.getAxisX());
                     } else
-                        cena.setEixoX(cena.getEixoX() + 0.0f);
-                    cena.setSentidoBarra("direita");
+                        cena.setAxisX(cena.getAxisX() + 0.0f);
+                    cena.setBarDirection("direita");
                 }
                 break;
                 
-            case setaEsquerda:
+            case left:
                 if (!isPaused) {
                     System.out.println("Esquerda no eixo X");
-                    if (cena.getEixoX() > -1.6f) {
-                        cena.setEixoX(cena.getEixoX() - 0.05f);
-                        System.out.println(cena.getEixoX());
+                    if (cena.getAxisX() > -1.6f) {
+                        cena.setAxisX(cena.getAxisX() - 0.05f);
+                        System.out.println(cena.getAxisX());
                     } else
-                        cena.setEixoX(cena.getEixoX() + 0.0f);
-                    cena.setSentidoBarra("esquerda");
+                        cena.setAxisX(cena.getAxisX() + 0.0f);
+                    cena.setBarDirection("esquerda");
                 }
                 break;
                 
             case KeyEvent.VK_SPACE:
                 System.out.println("Espaço pressionado");
-                if(cena.getTela() == "inicial" || cena.getTela() == "instrucoes"){
-                    cena.setTela("jogo");
+                if(cena.getScreen() == "initial" || cena.getScreen() == "instruction"){
+                    cena.setScreen("game");
                 }
                 else {
                     cena.isBallMoving = true; // Iniciar o movimento da bola
@@ -77,7 +75,7 @@ public class KeyBoard implements KeyListener {
                 
             case instruction:
                 System.out.println("Instruções");
-                cena.setTela("instrucoes");
+                cena.setScreen("instruction");
         }
     }
 
