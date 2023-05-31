@@ -1,4 +1,4 @@
-package aula02.cena;
+package pong.cena;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
@@ -7,7 +7,7 @@ import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.awt.TextRenderer;
 import java.awt.Color;
 import java.awt.Font;
-import aula02.textura.Textura;
+import pong.textura.Textura;
 
 public class Cena implements GLEventListener {
     
@@ -88,19 +88,19 @@ public class Cena implements GLEventListener {
         configuraDisplay(gl);
         
         if (getScreen()== "initial"){
-            desenhaTexto(gl,660, aula02.cena.Renderer.screenHeight-300, Color.MAGENTA, "BEM-VINDO!");
-            desenhaTexto(gl,520, aula02.cena.Renderer.screenHeight-450, Color.WHITE, "Pressine ESPAÇO para iniciar");
-            desenhaTexto(gl,570, aula02.cena.Renderer.screenHeight-500, Color.red, "Pressine ESC para sair");
-            desenhaTexto(gl,430, aula02.cena.Renderer.screenHeight-800, Color.YELLOW, "Pressine I para abrir as instruções do jogo");
+            desenhaTexto(gl,660, pong.cena.Renderer.screenHeight-300, Color.MAGENTA, "BEM-VINDO!");
+            desenhaTexto(gl,520, pong.cena.Renderer.screenHeight-450, Color.WHITE, "Pressine ESPAÇO para iniciar");
+            desenhaTexto(gl,570, pong.cena.Renderer.screenHeight-500, Color.red, "Pressine ESC para sair");
+            desenhaTexto(gl,430, pong.cena.Renderer.screenHeight-800, Color.YELLOW, "Pressine i para abrir as instruções do jogo");
         }
         
         if(getScreen()=="instruction"){
-            desenhaTexto(gl,660, aula02.cena.Renderer.screenHeight-100, Color.MAGENTA, "COMO JOGAR:");
-            desenhaTexto(gl,100, aula02.cena.Renderer.screenHeight-300, Color.white, "Utilize as setas do teclados para mover a barra para ESQUERDA ou DIREITA");
-            desenhaTexto(gl,100, aula02.cena.Renderer.screenHeight-350, Color.white, "Pressione o ESPAÇO para soltar a bolinha");
-            desenhaTexto(gl,100, aula02.cena.Renderer.screenHeight-400, Color.white, "Pressine P para pausar");
-            desenhaTexto(gl,100, aula02.cena.Renderer.screenHeight-450, Color.white, "Pressine T para reiniciar");
-            desenhaTexto(gl,100, aula02.cena.Renderer.screenHeight-500, Color.white, "Pressine ESC para sair");
+            desenhaTexto(gl,660, pong.cena.Renderer.screenHeight-100, Color.MAGENTA, "COMO JOGAR:");
+            desenhaTexto(gl,100, pong.cena.Renderer.screenHeight-300, Color.white, "Utilize as setas do teclados para mover a barra para ESQUERDA ou DIREITA");
+            desenhaTexto(gl,100, pong.cena.Renderer.screenHeight-350, Color.white, "Pressione o ESPAÇO para soltar a bolinha");
+            desenhaTexto(gl,100, pong.cena.Renderer.screenHeight-400, Color.white, "Pressine P para pausar");
+            desenhaTexto(gl,100, pong.cena.Renderer.screenHeight-450, Color.white, "Pressine T para reiniciar");
+            desenhaTexto(gl,100, pong.cena.Renderer.screenHeight-500, Color.white, "Pressine ESC para sair");
         }
         
         if(getScreen()=="game"){
@@ -115,16 +115,17 @@ public class Cena implements GLEventListener {
             }
 
             // Mostra o placar na tela
-            desenhaTexto(gl,20, aula02.cena.Renderer.screenHeight-100, Color.GREEN, "Placar: " + getScore());
+            desenhaTexto(gl,20, pong.cena.Renderer.screenHeight-100, Color.GREEN, "Placar: " + getScore());
 
             // Mostra a fase na tela
-            desenhaTexto(gl,20, aula02.cena.Renderer.screenHeight-150, Color.WHITE, "Fase: " + getFase());
+            desenhaTexto(gl,20, pong.cena.Renderer.screenHeight-150, Color.WHITE, "Fase: " + getFase());
 
             // Mostra a quantidade de vidas na tela
-            desenhaTexto(gl,20, aula02.cena.Renderer.screenHeight-50, Color.YELLOW, "Vidas restantes: ");
+            desenhaTexto(gl,20, pong.cena.Renderer.screenHeight-50, Color.YELLOW, "Vidas restantes: ");
 
             // Mostra as instrucoes na tela
-            desenhaTexto(gl,1050, aula02.cena.Renderer.screenHeight-50, Color.WHITE, "Iniciar/voltar: espaço | Pausa: p | Parar: t | Instruções: i");
+            desenhaTexto(gl,1050, pong.cena.Renderer.screenHeight-50, Color.WHITE, "Iniciar/voltar: espaço | Pausa: p");
+            desenhaTexto(gl,1050, pong.cena.Renderer.screenHeight-100, Color.WHITE, "Parar: t | Instruções: i");
 
             //Inclusão de representação das vidas por bolinhas
             if(getLives() > 0){
@@ -496,7 +497,7 @@ public class Cena implements GLEventListener {
     public void desenhaTexto(GL2 gl, int xPosicao, int yPosicao, Color cor, String frase){         
         gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
         //Retorna a largura e altura da janela
-        textRenderer.beginRendering(aula02.cena.Renderer.screenWidth, aula02.cena.Renderer.screenHeight);       
+        textRenderer.beginRendering(pong.cena.Renderer.screenWidth, pong.cena.Renderer.screenHeight);       
         textRenderer.setColor(cor);
         textRenderer.draw(frase, xPosicao, yPosicao);
         textRenderer.endRendering();

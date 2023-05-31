@@ -1,6 +1,6 @@
-package aula02.input;
+package pong.input;
 
-import aula02.cena.Cena;
+import pong.cena.Cena;
 import com.jogamp.newt.event.KeyEvent;
 import com.jogamp.newt.event.KeyListener;
 

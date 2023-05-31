@@ -1,4 +1,4 @@
-package aula02.cena;
+package pong.cena;
 
 import com.jogamp.newt.event.WindowAdapter;
 import com.jogamp.newt.event.WindowEvent;
@@ -6,7 +6,7 @@ import com.jogamp.newt.opengl.GLWindow;
 import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.util.FPSAnimator;
-import aula02.input.KeyBoard;
+import pong.input.KeyBoard;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
