@@ -7,7 +7,7 @@ import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.awt.TextRenderer;
 import java.awt.Color;
 import java.awt.Font;
-import pong.textura.Textura;
+//import pong.textura.Textura;;
 
 public class Cena implements GLEventListener {
     
@@ -49,9 +49,9 @@ public class Cena implements GLEventListener {
     private final float obstaclePositionYMax = 1f;
     
     //Referencia para classe Textura
-    private Textura textura = null;
-    //Quantidade de Texturas a ser carregada
-    private int totalTextura = 1;
+//    private Textura textura = null;
+//    //Quantidade de Texturas a ser carregada
+//    private int totalTextura = 1;
     //Constantes para identificar as imagens
     private float limite;
     public static final String FACE1 = "image/mario.png";
@@ -76,7 +76,7 @@ public class Cena implements GLEventListener {
         
         limite = 1;
         //Cria uma instancia da Classe Textura indicando a quantidade de texturas
-        textura = new Textura(totalTextura);
+//        textura = new Textura(totalTextura);
         
         gl.glEnable(GL2.GL_LIGHTING);
     }
@@ -167,29 +167,29 @@ public class Cena implements GLEventListener {
 
                 // Desenha um cubo no qual a textura eh aplicada
                 //não é geração de textura automática
-                textura.setAutomatica(false);
-
-                //configura os filtros
-                textura.setFiltro(filtro);
-                textura.setModo(modo);
-                textura.setWrap(wrap);  
-
-                //cria a textura indicando o local da imagem e o índice
-                textura.gerarTextura(gl, FACE1, 0);
+//                textura.setAutomatica(false);
+//
+//                //configura os filtros
+//                textura.setFiltro(filtro);
+//                textura.setModo(modo);
+//                textura.setWrap(wrap);  
+//
+//                //cria a textura indicando o local da imagem e o índice
+//                textura.gerarTextura(gl, FACE1, 0);
 
                 // Desenha o retangulo
                 gl.glPushMatrix();
                     gl.glColor3f(1, 1, 1);
                     gl.glBegin(GL2.GL_QUADS);
-                    gl.glTexCoord2f(0.0f, 0.0f);    gl.glVertex2f(obstaclePositionXMin, obstaclePositionYMin);
-                    gl.glTexCoord2f(limite, 0.0f);  gl.glVertex2f(obstaclePositionXMax, obstaclePositionYMin);
-                    gl.glTexCoord2f(limite, limite);    gl.glVertex2f(obstaclePositionXMax, obstaclePositionYMax);
-                    gl.glTexCoord2f(0.0f, limite);  gl.glVertex2f(obstaclePositionXMin, obstaclePositionYMax);
+                       gl.glVertex2f(obstaclePositionXMin, obstaclePositionYMin);
+                     gl.glVertex2f(obstaclePositionXMax, obstaclePositionYMin);
+                      gl.glVertex2f(obstaclePositionXMax, obstaclePositionYMax);
+                      gl.glVertex2f(obstaclePositionXMin, obstaclePositionYMax);
                     gl.glEnd();
                 gl.glPopMatrix();
 
                  //desabilita a textura indicando o índice
-                textura.desabilitarTextura(gl, 0);
+//                textura.desabilitarTextura(gl, 0);
             }
         }
     }
@@ -439,8 +439,8 @@ public class Cena implements GLEventListener {
     }
     
     public void mudarLevel(){
-        ballVelocityX *= 1.8f;
-        ballVelocityY *= 1.8f;
+        ballVelocityX *= 1.2f;
+        ballVelocityY *= 1.2f;
         setFase(2);
     }
     
@@ -494,7 +494,7 @@ public class Cena implements GLEventListener {
     }
     
      // Mostrar texto na tela   
-    public void desenhaTexto(GL2 gl, int xPosicao, int yPosicao, Color cor, String frase){         
+    public void desenhaTexto(GL2 gl, int xPosicao, int yPosicao, Color cor, String frase){         ;;
         gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
         //Retorna a largura e altura da janela
         textRenderer.beginRendering(pong.cena.Renderer.screenWidth, pong.cena.Renderer.screenHeight);       

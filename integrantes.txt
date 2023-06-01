@@ -1,0 +1,8 @@
+- Hellen Lima Abade: 125111369318
+- Ivo Eduardo Assis Ruiz: 125111362761
+- Juliana Mayumi Kamiguchi Watanabe: 125111368808
+- Melissa Saraiva de Oliveira: 125111375858
+- Oto Victor Ribeiro Rezende: 125111356725
+- Vitor Cardoso dos Santos Borges: 125111374414
+
+O arquivo executável retiramos a textura, mas no código se executar está com a textura.
